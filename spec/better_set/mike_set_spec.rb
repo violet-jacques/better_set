@@ -34,14 +34,14 @@ module BetterSet
       context "empty set" do
         it "returns the correct representation" do
           set = MikeSet.new
-          expect(set.inspect).to eq("<BetterSet: Ø>")
+          expect(set.inspect).to eq("#<BetterSet: Ø>")
         end
       end
 
       context "non empty" do
         it "returns the correct representation" do
-          set = MikeSet.new(["justine"])
-          expect(set.inspect).to eq("<BetterSet: {justine}>")
+          set = MikeSet.new(["justine", 4, [1, "hey"], {foo: :bar}])
+          expect(set.inspect).to eq('#<BetterSet: {"justine", 4, [1, "hey"], {:foo=>:bar}}>')
         end
       end
     end

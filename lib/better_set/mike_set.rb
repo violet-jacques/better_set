@@ -7,14 +7,18 @@ module BetterSet
     end
 
     def inspect
-      if @hash.keys.include?("null")
-        "<BetterSet: Ø>"
+      if keys.include?("null")
+        "#<BetterSet: Ø>"
       else
-        "<BetterSet: {#{@hash.keys.map { |key| key.inspect[1..-2] }.join(', ')}}>"
+        "#<BetterSet: {#{keys.inspect[1..-2]}}>"
       end
     end
 
     private
+
+    def keys
+      @keys ||= @hash.keys
+    end
 
     def merge_initial_argument(argument)
       if argument.class != Array
