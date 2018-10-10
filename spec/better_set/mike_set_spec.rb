@@ -40,7 +40,7 @@ module BetterSet
       end
     end
 
-    describe "#subset" do
+    describe "#subset?" do
       context "other is not a set" do
         it "raises an argument error" do
           set = MikeSet.new
@@ -73,6 +73,16 @@ module BetterSet
         end
       end
 
+      context "self is the same as other" do
+        it "returns true" do
+          set = MikeSet.new(["hey"])
+
+          other = MikeSet.new(["hey"])
+
+          expect(set.subset?(other)).to be(true)
+        end
+      end
+
       context "at least one of the elements in self is not in other" do
         it "returns false" do
           set = MikeSet.new(["yo"])
@@ -80,6 +90,72 @@ module BetterSet
           other = MikeSet.new(["dawg"])
 
           expect(set.subset?(other)).to be(false)
+        end
+      end
+    end
+
+    describe "#proper_subset?" do
+      context "other is not a set" do
+        it "raises an argument error" do
+          set = MikeSet.new
+          other = "hey"
+
+          expect { set.proper_subset?(other) }.to raise_error(
+            ArgumentError,
+            "Argument must be a BetterSet",
+          )
+        end
+      end
+
+      context "self is the empty set" do
+        context "other is not the empty set" do
+          it "returns true" do
+            set = MikeSet.new
+
+            other = MikeSet.new(["hey"])
+
+            expect(set.proper_subset?(other)).to be(true)
+          end
+        end
+
+        context "other is the empty set" do
+          it "returns false" do
+            set = MikeSet.new
+
+            other = MikeSet.new
+
+            expect(set.proper_subset?(other)).to be(false)
+          end
+        end
+      end
+
+      context "all of the elements in self are in other" do
+        it "returns true" do
+          set = MikeSet.new(["hey"])
+
+          other = MikeSet.new(["hey", "dawg"])
+
+          expect(set.proper_subset?(other)).to be(true)
+        end
+      end
+
+      context "at least one of the elements in self is not in other" do
+        it "returns false" do
+          set = MikeSet.new(["yo"])
+
+          other = MikeSet.new(["dawg"])
+
+          expect(set.proper_subset?(other)).to be(false)
+        end
+      end
+
+      context "self is a subset of other and the same length as other" do
+        it "returns false" do
+          set = MikeSet.new(["yo"])
+
+          other = MikeSet.new(["yo"])
+
+          expect(set.proper_subset?(other)).to be(false)
         end
       end
     end
