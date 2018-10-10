@@ -14,13 +14,27 @@ module BetterSet
       end
     end
 
-    def subset?(other)
-    if other.class != self.class
-      raise ArgumentError, "Argument must be a BetterSet"
-    else
-      keys.all? { |key| other.send('keys').include?(key) }
+    def length
+      @length ||= keys.length
     end
-  end
+
+    def subset?(other)
+      if other.class != self.class
+        raise ArgumentError, "Argument must be a BetterSet"
+      else
+        keys.all? { |key| other.send('keys').include?(key) }
+      end
+    end
+
+    alias_method :<=, :subset?
+
+    def proper_subset?(other)
+      if other.class != self.class
+        raise ArgumentError, "Argument must be a BetterSet"
+      else
+        subset?(other) && length < other.length
+      end
+    end
 
     private
 
