@@ -5,9 +5,7 @@ module BetterSet
         it "initializes an empty set" do
           set = MikeSet.new
 
-          expect(set.instance_variable_get(:@hash)).to eq(
-            "null" => true,
-          )
+          expect(set.instance_variable_get(:@hash)).to eq(Hash.new(false))
         end
       end
 
