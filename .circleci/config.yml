@@ -1,0 +1,45 @@
+# Ruby CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-ruby/ for more details
+#
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/ruby:2.5.0-stretch-node-browsers
+
+    steps:
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+          - better_set-{{ checksum "Gemfile.lock" }}
+          # fallback to using the latest cache if no exact match is found
+          - better_set-
+
+      # cmake is required by Rugged, a dependency of Pronto
+      - run:
+          name: Install cmake
+          command: sudo apt-get -y -qq update && sudo apt-get -y -qq install cmake
+
+      # Bundle install dependencies
+      - run:
+          name: install dependencies
+          command: bundle install --path vendor/bundle
+
+      # Store bundle cache
+      - save_cache:
+          paths:
+            - vendor/bundle
+          key: better_set-{{ checksum "Gemfile.lock" }}
+
+      # Tests
+      - run:
+          name: RSpec
+          command: bundle exec rspec
+
+      # Save Coverage Analysis
+      - store_artifacts:
+          path: coverage
+          destination: coverage
