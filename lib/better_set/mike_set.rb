@@ -25,7 +25,6 @@ module BetterSet
         keys.all? { |key| other.send('keys').include?(key) }
       end
     end
-    alias <= subset?
 
     def superset?(other)
       if other.class != self.class
@@ -34,7 +33,6 @@ module BetterSet
         other.send('keys').all? { |key| keys.include?(key) }
       end
     end
-    alias >= superset?
 
     def proper_subset?(other)
       if other.class != self.class
@@ -43,7 +41,6 @@ module BetterSet
         subset?(other) && !superset?(other)
       end
     end
-    alias < proper_subset?
 
     def proper_superset?(other)
       if other.class != self.class
@@ -52,7 +49,6 @@ module BetterSet
         superset?(other) && !subset?(other)
       end
     end
-    alias > proper_subset?
 
     private
 
