@@ -14,6 +14,14 @@ module BetterSet
       end
     end
 
+    def subset?(other)
+    if other.class != self.class
+      raise ArgumentError, "Argument must be a BetterSet"
+    else
+      keys.all? { |key| other.send('keys').include?(key) }
+    end
+  end
+
     private
 
     def keys
