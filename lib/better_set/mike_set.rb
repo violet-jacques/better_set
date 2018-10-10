@@ -14,8 +14,8 @@ module BetterSet
       end
     end
 
-    def length
-      @length ||= keys.length
+    def ==(other)
+      subset?(other) && superset?(other)
     end
 
     def subset?(other)
@@ -27,14 +27,32 @@ module BetterSet
     end
     alias <= subset?
 
+    def superset?(other)
+      if other.class != self.class
+        raise ArgumentError, "Argument must be a BetterSet"
+      else
+        other.send('keys').all? { |key| keys.include?(key) }
+      end
+    end
+    alias >= superset?
+
     def proper_subset?(other)
       if other.class != self.class
         raise ArgumentError, "Argument must be a BetterSet"
       else
-        subset?(other) && length < other.length
+        subset?(other) && !superset?(other)
       end
     end
     alias < proper_subset?
+
+    def proper_superset?(other)
+      if other.class != self.class
+        raise ArgumentError, "Argument must be a BetterSet"
+      else
+        superset?(other) && !subset?(other)
+      end
+    end
+    alias > proper_subset?
 
     private
 
