@@ -7,7 +7,7 @@ module BetterSet
     end
 
     def inspect
-      if keys.include?("null")
+      if keys.empty?
         "#<BetterSet: Ø>"
       else
         "#<BetterSet: {#{keys.inspect[1..-2]}}>"
@@ -23,8 +23,6 @@ module BetterSet
     def merge_initial_argument(argument)
       if argument.class != Array
         raise ArgumentError, "Argument must be Array class"
-      elsif argument.empty?
-        @hash.update("null" => true)
       else
         merge_array(argument)
       end
