@@ -25,7 +25,7 @@ module BetterSet
         keys.all? { |key| other.send('keys').include?(key) }
       end
     end
-    alias_method :<=, :subset?
+    alias <= subset?
 
     def proper_subset?(other)
       if other.class != self.class
@@ -34,7 +34,7 @@ module BetterSet
         subset?(other) && length < other.length
       end
     end
-    alias_method :<, :proper_subset?
+    alias < proper_subset?
 
     private
 
