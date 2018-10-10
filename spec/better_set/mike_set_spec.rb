@@ -21,9 +21,21 @@ module BetterSet
       context "array of stuff" do
         it "creates and stores hash out of the array" do
           set = MikeSet.new(["justine"])
-          expect(set.instance_variable_get(:@hash)).to(eq(
+
+          expect(set.instance_variable_get(:@hash)).to eq(
             "justine" => true,
-          ))
+          )
+        end
+      end
+
+      context "duplicates" do
+        it "does not store duplicates" do
+          set = MikeSet.new(["justine", "justine", 1, 1])
+
+          expect(set.instance_variable_get(:@hash)).to eq(
+            "justine" => true,
+            1 => true,
+          )
         end
       end
     end
@@ -76,6 +88,7 @@ module BetterSet
       context "empty set" do
         it "returns the correct representation" do
           set = MikeSet.new
+
           expect(set.inspect).to eq("#<BetterSet: Ø>")
         end
       end
@@ -83,6 +96,7 @@ module BetterSet
       context "non empty" do
         it "returns the correct representation" do
           set = MikeSet.new(["justine", 4, [1, "hey"], {foo: :bar}])
+
           expect(set.inspect).to eq('#<BetterSet: {"justine", 4, [1, "hey"], {:foo=>:bar}}>')
         end
       end
