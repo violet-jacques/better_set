@@ -11,7 +11,7 @@ RSpec.describe BetterSet do
 
   describe ".[]" do
     it "initializes a MikeSet" do
-      expect(BetterSet.new).to be_a(BetterSet::MikeSet)
+      expect(BetterSet[]).to be_a(BetterSet::MikeSet)
     end
   end
 end
