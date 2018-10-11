@@ -6,7 +6,7 @@ The set class in ruby is useful but doesnt really act like a set. this one does
 
 ## Upcoming additions
 
-*   [ ] Union
+*   [x] Union
 *   [ ] Intersection
 *   [ ] Difference
 *   [ ] Powerset
