@@ -4,20 +4,20 @@ RSpec.describe BetterSet do
   end
 
   describe ".new" do
-    it "initializes a MikeSet" do
+    it "initializes a Set" do
       array = [1,2,3]
 
-      expect(BetterSet.new).to be_a(BetterSet::MikeSet)
+      expect(BetterSet.new).to be_a(BetterSet::Set)
 
-      expect(BetterSet.new(array)).to eq(BetterSet::MikeSet.new(array))
+      expect(BetterSet.new(array)).to eq(BetterSet::Set.new(array))
     end
   end
 
   describe ".[]" do
-    it "initializes a MikeSet" do
-      expect(BetterSet[]).to be_a(BetterSet::MikeSet)
+    it "initializes a Set" do
+      expect(BetterSet[]).to be_a(BetterSet::Set)
 
-      expect(BetterSet[1,2,3]).to eq(BetterSet::MikeSet.new([1,2,3]))
+      expect(BetterSet[1,2,3]).to eq(BetterSet::Set.new([1,2,3]))
     end
   end
 end

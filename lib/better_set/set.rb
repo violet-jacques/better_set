@@ -1,5 +1,5 @@
 module BetterSet
-  class MikeSet
+  class Set
     def initialize(array = [])
       @hash = merge_initial_argument(array)
     end
@@ -56,7 +56,7 @@ module BetterSet
       unless same_class_as(other)
         raise ArgumentError, "Argument must be a BetterSet"
       else
-        MikeSet.new([
+        self.class.new([
           *self.to_a,
           *other.to_a,
         ])
