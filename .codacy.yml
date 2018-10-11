@@ -1,0 +1,10 @@
+---
+engines:
+ rubocop:
+   enabled: true
+ duplication:
+   enabled: true
+ metrics:
+   enabled: true
+exclude_paths:
+  - spec/**/*
