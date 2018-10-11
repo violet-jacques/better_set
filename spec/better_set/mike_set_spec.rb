@@ -41,6 +41,15 @@ module BetterSet
     end
 
     describe "#==" do
+      context "other is not a set" do
+        it "returns false" do
+          set = MikeSet.new
+          other = "hey"
+
+          expect(set == other).to be(false)
+        end
+      end
+
       context "self is a subset of other" do
         context "self is a superset of other" do
           it "returns true" do
@@ -84,14 +93,11 @@ module BetterSet
 
     describe "#subset?" do
       context "other is not a set" do
-        it "raises an argument error" do
+        it "returns false" do
           set = MikeSet.new
           other = "hey"
 
-          expect { set.subset?(other) }.to raise_error(
-            ArgumentError,
-            "Argument must be a BetterSet",
-          )
+          expect(set == other).to be(false)
         end
       end
 
@@ -147,14 +153,11 @@ module BetterSet
 
     describe "#proper_subset?" do
       context "other is not a set" do
-        it "raises an argument error" do
+        it "returns false" do
           set = MikeSet.new
           other = "hey"
 
-          expect { set.proper_subset?(other) }.to raise_error(
-            ArgumentError,
-            "Argument must be a BetterSet",
-          )
+          expect(set == other).to be(false)
         end
       end
 
@@ -222,14 +225,11 @@ module BetterSet
 
     describe "#superset?" do
       context "other is not a set" do
-        it "raises an argument error" do
+        it "returns false" do
           set = MikeSet.new
           other = "hey"
 
-          expect { set.superset?(other) }.to raise_error(
-            ArgumentError,
-            "Argument must be a BetterSet",
-          )
+          expect(set == other).to be(false)
         end
       end
 
@@ -281,14 +281,11 @@ module BetterSet
 
     describe "#proper_superset?" do
       context "other is not a set" do
-        it "raises an argument error" do
+        it "returns false" do
           set = MikeSet.new
           other = "hey"
 
-          expect { set.proper_superset?(other) }.to raise_error(
-            ArgumentError,
-            "Argument must be a BetterSet",
-          )
+          expect(set == other).to be(false)
         end
       end
 
@@ -355,6 +352,91 @@ module BetterSet
           set = MikeSet.new(["justine", 4, [1, "hey"], {foo: :bar}])
 
           expect(set.inspect).to eq('#<BetterSet: {"justine", 4, [1, "hey"], {:foo=>:bar}}>')
+        end
+      end
+    end
+
+    describe "#to_a" do
+      it "returns an array of the elements in the set" do
+        array = [1,2,3]
+        second_array = [1,1,2,3]
+        set = MikeSet.new(array)
+        other_set = MikeSet.new(second_array)
+
+        expect(set.to_a).to eq(array)
+        expect(other_set.to_a).to eq(array)
+      end
+    end
+
+    describe "#cardinality" do
+      it "returns the length of the set" do
+        array = [1,2,3]
+        second_array = [1,1,2,3]
+        set = MikeSet.new(array)
+        other_set = MikeSet.new(second_array)
+
+        expect(set.cardinality).to eq(3)
+        expect(other_set.cardinality).to eq(3)
+      end
+    end
+
+    describe "#member?" do
+      context "set does not contain supplied element" do
+        it "returns false" do
+          set = MikeSet.new([1,2,3])
+
+          expect(set.member?(4)).to be(false)
+        end
+      end
+
+      context "set contains supplied element" do
+        it "returns true" do
+          set = MikeSet.new([1,2,3])
+
+          expect(set.member?(2)).to be(true)
+        end
+      end
+    end
+
+    describe "#union" do
+      context "other is not a set" do
+        it "raises an argument error" do
+          set = MikeSet.new
+          other = "hey"
+
+          expect { set.union(other) }.to raise_error(
+            ArgumentError,
+            "Argument must be a BetterSet",
+          )
+        end
+      end
+
+      it "returns a set with all the elements from both sets" do
+        array = [1,2,3]
+        array2 = ["hey", 3, MikeSet.new]
+        set = MikeSet.new(array)
+        set2 = MikeSet.new(array2)
+
+        expect(set.union(set2)).to eq(
+          MikeSet.new([1, 2, 3, "hey", MikeSet.new])
+        )
+      end
+    end
+
+    describe "empty?" do
+      context "it is empty" do
+        it "returns false" do
+          set = MikeSet.new([1])
+
+          expect(set.empty?).to be(false)
+        end
+      end
+
+      context "it is empty" do
+        it "returns false" do
+          set = MikeSet.new
+
+          expect(set.empty?).to be(true)
         end
       end
     end
