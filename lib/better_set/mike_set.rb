@@ -22,9 +22,9 @@ module BetterSet
 
     def inspect
       if empty?
-        "#<BetterSet: Ø>"
+        "Ø"
       else
-        "#<BetterSet: {#{to_a.to_s[1..-2]}}>"
+        "{#{to_a.to_s[1..-2]}}"
       end
     end
 
