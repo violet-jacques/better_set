@@ -1,5 +1,5 @@
 require "better_set/version"
-require "better_set/mike_set"
+require "better_set/set"
 
 module BetterSet
   def self.[](*array)
@@ -7,6 +7,6 @@ module BetterSet
   end
 
   def self.new(array = [])
-    MikeSet.new(array)
+    Set.new(array)
   end
 end
