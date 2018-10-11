@@ -1,9 +1,7 @@
 module BetterSet
   class MikeSet
     def initialize(array = [])
-      @hash = Hash.new(false)
-
-      merge_initial_argument(array)
+      @hash = merge_initial_argument(array)
     end
 
     def cardinality
@@ -76,7 +74,9 @@ module BetterSet
     end
 
     def merge_array(array)
-      @hash.merge!(array.map { |el| [el, true] }.to_h)
+      array.reduce(Hash.new(false)) do |memo, element|
+        memo.merge(element => true)
+      end
     end
 
     def same_cardinality_as(other)
