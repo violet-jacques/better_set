@@ -6,7 +6,7 @@ module BetterSet
     self.new(array)
   end
 
-  def self.new(*array)
+  def self.new(array = [])
     MikeSet.new(array)
   end
 end
