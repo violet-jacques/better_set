@@ -1,7 +1,15 @@
 module BetterSet
   class Set
+    def self.big_union(*args)
+      args.reduce(&:union)
+    end
+
+    def self.big_intersection(*args)
+      args.reduce(&:intersection)
+    end
+
     def initialize(array = [])
-      @hash = merge_initial_argument(array)
+      @hash = merge_initial_array(array).freeze
     end
 
     def cardinality
@@ -53,29 +61,43 @@ module BetterSet
     end
 
     def union(other)
-      unless same_class_as(other)
-        raise ArgumentError, "Argument must be a BetterSet"
-      else
-        self.class.new([
-          *self.to_a,
-          *other.to_a,
-        ])
-      end
+      raise_argument_error unless same_class_as(other)
+
+      self.class.new([
+        *self.to_a,
+        *other.to_a,
+      ])
+    end
+
+    def intersection(other)
+      raise_argument_error unless same_class_as(other)
+
+      self.class.new(self.to_a.select { |element|
+        other.member?(element)
+      })
+    end
+
+    def difference(other)
+      raise_argument_error unless same_class_as(other)
+
+      self.class.new(self.to_a.select { |element|
+        !other.member?(element)
+      })
+    end
+
+    def -(other)
+      difference(other)
     end
 
     private
 
-    def merge_initial_argument(argument)
-      if argument.class != Array
+    def merge_initial_array(array)
+      if array.class != Array
         raise ArgumentError, "Argument must be Array class"
       else
-        merge_array(argument)
-      end
-    end
-
-    def merge_array(array)
-      array.reduce(Hash.new(false)) do |memo, element|
-        memo.merge(element => true)
+        array.reduce(Hash.new(false)) do |memo, element|
+          memo.merge(element => true)
+        end
       end
     end
 
@@ -87,6 +109,10 @@ module BetterSet
 
     def same_class_as(other)
       other.class.name == self.class.name
+    end
+
+    def raise_argument_error
+      raise ArgumentError, "Argument must be a BetterSet"
     end
   end
 end
