@@ -1,5 +1,53 @@
 module BetterSet
   RSpec.describe Set do
+    describe ".big_union" do
+      context "one of the args is not a set" do
+        it "raises an argument error" do
+          set = Set.new
+          other = "hey"
+
+          expect { Set.big_union(set, other) }.to raise_error(
+            ArgumentError,
+            "Argument must be a BetterSet",
+          )
+        end
+      end
+
+      it "returns the union of all passed in sets" do
+        set = Set.new([1])
+        set2 = Set.new([1,2])
+        set3 = Set.new(["a", "b"])
+
+        expect(Set.big_union(set, set2, set3)).to eq(
+          Set.new([1, 2, "a", "b"])
+        )
+      end
+    end
+
+    describe ".big_intersection" do
+      context "one of the args is not a set" do
+        it "raises an argument error" do
+          set = Set.new
+          other = "hey"
+
+          expect { Set.big_intersection(set, other) }.to raise_error(
+            ArgumentError,
+            "Argument must be a BetterSet",
+          )
+        end
+      end
+
+      it "returns the union of all passed in sets" do
+        set = Set.new([1])
+        set2 = Set.new([1,2])
+        set3 = Set.new(["a", "b", 1])
+
+        expect(Set.big_intersection(set, set2, set3)).to eq(
+          Set.new([1])
+        )
+      end
+    end
+
     describe "initialize" do
       context "no arguments" do
         it "initializes an empty set" do
@@ -419,6 +467,81 @@ module BetterSet
 
         expect(set.union(set2)).to eq(
           Set.new([1, 2, 3, "hey", Set.new])
+        )
+      end
+    end
+
+    describe "#intersection" do
+      context "other is not a set" do
+        it "raises an argument error" do
+          set = Set.new
+          other = "hey"
+
+          expect { set.intersection(other) }.to raise_error(
+            ArgumentError,
+            "Argument must be a BetterSet",
+          )
+        end
+      end
+
+      it "returns a set with only the elements in both sets" do
+        array = [1,Set.new, 3]
+        array2 = ["hey", 3, Set.new]
+        set = Set.new(array)
+        set2 = Set.new(array2)
+
+        expect(set.intersection(set2)).to eq(
+          Set.new([3, Set.new])
+        )
+      end
+    end
+
+    describe "#difference" do
+      context "other is not a set" do
+        it "raises an argument error" do
+          set = Set.new
+          other = "hey"
+
+          expect { set.difference(other) }.to raise_error(
+            ArgumentError,
+            "Argument must be a BetterSet",
+          )
+        end
+      end
+
+      it "returns a set with all the elements in self but not in other" do
+        array = [1,Set.new, 3]
+        array2 = ["hey", 3, Set.new]
+        set = Set.new(array)
+        set2 = Set.new(array2)
+
+        expect(set.difference(set2)).to eq(
+          Set.new([1])
+        )
+      end
+    end
+
+    describe "#-" do
+      context "other is not a set" do
+        it "raises an argument error" do
+          set = Set.new
+          other = "hey"
+
+          expect { set - other }.to raise_error(
+            ArgumentError,
+            "Argument must be a BetterSet",
+          )
+        end
+      end
+
+      it "returns a set with all the elements in self but not in other" do
+        array = [1,Set.new, 3]
+        array2 = ["hey", 3, Set.new]
+        set = Set.new(array)
+        set2 = Set.new(array2)
+
+        expect(set - set2).to eq(
+          Set.new([1])
         )
       end
     end
