@@ -85,6 +85,12 @@ module BetterSet
             1 => true,
           )
         end
+
+        context "of type set" do
+          it "does not store dupes" do
+            expect(Set.new([Set.new, Set.new])).to eq(Set.new([Set.new]))
+          end
+        end
       end
     end
 

@@ -1,3 +1,5 @@
+require "better_set/values/initial_hash"
+
 module BetterSet
   class Set
     def self.big_union(*args)
@@ -9,7 +11,7 @@ module BetterSet
     end
 
     def initialize(array = [])
-      @hash = merge_initial_array(array).freeze
+      @hash = Values::InitialHash.value(array)
     end
 
     def cardinality
@@ -90,16 +92,6 @@ module BetterSet
     end
 
     private
-
-    def merge_initial_array(array)
-      if array.class != Array
-        raise ArgumentError, "Argument must be Array class"
-      else
-        array.reduce(Hash.new(false)) do |memo, element|
-          memo.merge(element => true)
-        end
-      end
-    end
 
     def same_cardinality_as(other)
       return false unless same_class_as(other)
