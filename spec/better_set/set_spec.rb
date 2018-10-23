@@ -569,5 +569,20 @@ module BetterSet
         end
       end
     end
+
+    describe "powerset" do
+      it "returns the set of all subsets of self" do
+        set = Set.new
+        set2 = Set.new([1,2])
+
+        expect(set.powerset).to eq(Set.new([Set.new]))
+        expect(set2.powerset).to eq(Set.new([
+          Set.new,
+          Set.new([1]),
+          Set.new([2]),
+          Set.new([1,2]),
+        ]))
+      end
+    end
   end
 end
