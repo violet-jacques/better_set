@@ -1,4 +1,5 @@
 require "better_set/values/initial_hash"
+require "better_set/values/powerset"
 
 module BetterSet
   class Set
@@ -89,6 +90,10 @@ module BetterSet
 
     def -(other)
       difference(other)
+    end
+
+    def powerset
+      Values::Powerset.value(self)
     end
 
     private
