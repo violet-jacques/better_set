@@ -14,10 +14,14 @@ module BetterSet
       "<#{first.to_s}, #{second.to_s}>"
     end
 
+    def symmetric?
+      first == second
+    end
+
     private
 
     def initial_ordered_pair_array
-      Values::InitialOrderedPairArray.value(@first, @second)
+      Values::InitialOrderedPairArray.value(first, second)
     end
   end
 end
