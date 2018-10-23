@@ -20,7 +20,7 @@ module BetterSet
     end
 
     def to_a
-      @hash.keys
+      @to_a ||= @hash.keys
     end
 
     def empty?
@@ -37,6 +37,10 @@ module BetterSet
       else
         "{#{to_a.to_s[1..-2]}}"
       end
+    end
+
+    def to_s
+      inspect
     end
 
     def ==(other)
@@ -105,7 +109,7 @@ module BetterSet
     end
 
     def same_class_as(other)
-      other.class.name == self.class.name
+      other.is_a?(Set)
     end
 
     def raise_argument_error
