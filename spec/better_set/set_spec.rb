@@ -410,6 +410,24 @@ module BetterSet
       end
     end
 
+    describe "#to_s" do
+      context "empty set" do
+        it "returns the correct representation" do
+          set = Set.new
+
+          expect(set.to_s).to eq("Ø")
+        end
+      end
+
+      context "non empty" do
+        it "returns the correct representation" do
+          set = Set.new(["justine", 4, [1, "hey"], {foo: :bar}])
+
+          expect(set.to_s).to eq('{"justine", 4, [1, "hey"], {:foo=>:bar}}')
+        end
+      end
+    end
+
     describe "#to_a" do
       it "returns an array of the elements in the set" do
         array = [1,2,3]
