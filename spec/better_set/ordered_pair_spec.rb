@@ -26,5 +26,24 @@ module BetterSet
         expect(ordered_pair.inspect).to eq("<1, 2>")
       end
     end
+
+    describe "#symmetric?" do
+      context "first and second are identical" do
+        let(:second) { first }
+
+        it "returns true" do
+          expect(ordered_pair.symmetric?).to be(true)
+        end
+      end
+
+      context "first and second are not identical" do
+        let(:first) { 1 }
+        let(:second) { 2 }
+
+        it "returns false" do
+          expect(ordered_pair.symmetric?).to be(false)
+        end
+      end
+    end
   end
 end
