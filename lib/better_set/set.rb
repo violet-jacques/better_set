@@ -70,7 +70,7 @@ module BetterSet
     def union(other)
       raise_argument_error unless same_class_as(other)
 
-      self.class.new([
+      Set.new([
         *self.to_a,
         *other.to_a,
       ])
@@ -79,7 +79,7 @@ module BetterSet
     def intersection(other)
       raise_argument_error unless same_class_as(other)
 
-      self.class.new(self.to_a.select { |element|
+      Set.new(to_a.select { |element|
         other.member?(element)
       })
     end
@@ -87,7 +87,7 @@ module BetterSet
     def difference(other)
       raise_argument_error unless same_class_as(other)
 
-      self.class.new(self.to_a.select { |element|
+      Set.new(to_a.select { |element|
         !other.member?(element)
       })
     end
