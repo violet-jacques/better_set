@@ -3,6 +3,8 @@ require "better_set/values/powerset"
 
 module BetterSet
   class Set
+    delegate :all?, :any?, :none?, to: :to_a
+
     def self.big_union(*args)
       args.reduce(&:union)
     end

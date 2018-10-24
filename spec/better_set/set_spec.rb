@@ -94,6 +94,12 @@ module BetterSet
       end
     end
 
+    describe "delegations" do
+      it { should delegate_method(:all?).to(:to_a) }
+      it { should delegate_method(:any?).to(:to_a) }
+      it { should delegate_method(:none?).to(:to_a) }
+    end
+
     describe "#==" do
       context "other is not a set" do
         it "returns false" do
