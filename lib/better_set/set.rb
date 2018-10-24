@@ -1,3 +1,4 @@
+require "better_set/values/cartesian_product"
 require "better_set/values/initialize_set"
 require "better_set/values/powerset"
 
@@ -100,6 +101,12 @@ module BetterSet
 
     def powerset
       Values::Powerset.value(self)
+    end
+
+    def cartesian_product(other)
+      raise_argument_error unless same_class_as(other)
+
+      Values::CartesianProduct.value(self, other)
     end
 
     private
