@@ -53,13 +53,13 @@ module BetterSet
     def subset?(other)
       return false unless same_class_as(other)
 
-      to_a.all? { |key| other.member?(key) }
+      all? { |key| other.member?(key) }
     end
 
     def superset?(other)
       return false unless same_class_as(other)
 
-      other.to_a.all? { |element| member?(element) }
+      other.all? { |element| member?(element) }
     end
 
     def proper_subset?(other)
