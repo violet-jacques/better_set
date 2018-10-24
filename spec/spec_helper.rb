@@ -7,6 +7,7 @@ SimpleCov.formatter = SimpleCov::Formatter::Codecov
 require "bundler/setup"
 require "better_set"
 require "pry"
+require "shoulda-matchers"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
@@ -17,5 +18,12 @@ RSpec.configure do |config|
 
   config.expect_with :rspec do |c|
     c.syntax = :expect
+  end
+end
+
+Shoulda::Matchers.configure do |config|
+  config.integrate do |with|
+    # Choose a test framework:
+    with.test_framework :rspec
   end
 end
