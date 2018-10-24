@@ -1,4 +1,4 @@
-require "better_set/values/initial_hash"
+require "better_set/values/initialize_set"
 require "better_set/values/powerset"
 
 module BetterSet
@@ -14,7 +14,7 @@ module BetterSet
     end
 
     def initialize(array = [])
-      @hash = Values::InitialHash.value(array)
+      @hash = Values::InitializeSet.value(array)
     end
 
     def cardinality
