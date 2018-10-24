@@ -594,7 +594,7 @@ module BetterSet
       end
     end
 
-    describe "powerset" do
+    describe "#powerset" do
       it "returns the set of all subsets of self" do
         set = Set.new
         set2 = Set.new([1,2])
@@ -606,6 +606,38 @@ module BetterSet
           Set.new([2]),
           Set.new([1,2]),
         ]))
+      end
+    end
+
+    describe "#cartesian_product" do
+      context "other is not a set" do
+        it "raises an argument error" do
+          set = Set.new
+          other = "hey"
+
+          expect { set.cartesian_product(other) }.to raise_error(
+            ArgumentError,
+            "Argument must be a BetterSet",
+          )
+        end
+      end
+
+      it "returns the cartesian product of two sets as a relation" do
+        domain = Set.new([1,2])
+        range = Set.new([3,4])
+        ordered_pair = OrderedPair.new(1,3)
+        ordered_pair2 = OrderedPair.new(1,4)
+        ordered_pair3 = OrderedPair.new(2,3)
+        ordered_pair4 = OrderedPair.new(2,4)
+        ordered_pairs = Set.new([
+          ordered_pair,
+          ordered_pair2,
+          ordered_pair3,
+          ordered_pair4
+        ])
+        relation = Relation.new(ordered_pairs)
+
+        expect(domain.cartesian_product(range)).to eq(relation)
       end
     end
   end
