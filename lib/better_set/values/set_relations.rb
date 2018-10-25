@@ -1,10 +1,6 @@
 module BetterSet
   module Values
-    class SetRelations
-      def initialize(set)
-        @set = set
-      end
-
+    module SetRelations
       def ==(other)
         subset?(other) && same_cardinality_as(other)
       end
@@ -12,13 +8,13 @@ module BetterSet
       def subset?(other)
         return false unless same_class_as(other)
 
-        @set.all? { |key| other.member?(key) }
+        all? { |key| other.member?(key) }
       end
 
       def superset?(other)
         return false unless same_class_as(other)
 
-        other.all? { |element| @set.member?(element) }
+        other.all? { |element| member?(element) }
       end
 
       def proper_subset?(other)
@@ -33,7 +29,7 @@ module BetterSet
         raise_argument_error unless same_class_as(other)
 
         Set.new([
-          *@set.to_a,
+          *to_a,
           *other.to_a,
         ])
       end
@@ -41,7 +37,7 @@ module BetterSet
       def intersection(other)
         raise_argument_error unless same_class_as(other)
 
-        Set.new(@set.to_a.select { |element|
+        Set.new(to_a.select { |element|
           other.member?(element)
         })
       end
@@ -49,7 +45,7 @@ module BetterSet
       def difference(other)
         raise_argument_error unless same_class_as(other)
 
-        Set.new(@set.to_a.select { |element|
+        Set.new(to_a.select { |element|
           !other.member?(element)
         })
       end
@@ -61,7 +57,7 @@ module BetterSet
       def cartesian_product(other)
         raise_argument_error unless same_class_as(other)
 
-        Values::CartesianProduct.value(@set, other)
+        CartesianProduct.value(self, other)
       end
 
       private
@@ -69,7 +65,7 @@ module BetterSet
       def same_cardinality_as(other)
         return false unless same_class_as(other)
 
-        @set.cardinality == other.cardinality
+        cardinality == other.cardinality
       end
 
       def same_class_as(other)
