@@ -5,12 +5,9 @@ require "better_set/values/set_relations"
 
 module BetterSet
   class Set
+    include Values::SetRelations
+
     delegate :all?, :any?, :none?, to: :to_a
-    delegate :==, to: :set_relations
-    delegate :cartesian_product, to: :set_relations
-    delegate :proper_subset?, :proper_superset?, to: :set_relations
-    delegate :subset?, :superset?, to: :set_relations
-    delegate :union, :intersection, :difference, :-, to: :set_relations
 
     def self.big_union(*args)
       args.reduce(&:union)
@@ -54,12 +51,6 @@ module BetterSet
 
     def powerset
       Values::Powerset.value(self)
-    end
-
-    private
-
-    def set_relations
-      @set_relations ||= Values::SetRelations.new(self)
     end
   end
 end
