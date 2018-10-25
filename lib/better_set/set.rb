@@ -1,10 +1,16 @@
 require "better_set/values/cartesian_product"
 require "better_set/values/initialize_set"
 require "better_set/values/powerset"
+require "better_set/values/set_relations"
 
 module BetterSet
   class Set
     delegate :all?, :any?, :none?, to: :to_a
+    delegate :==, to: :set_relations
+    delegate :cartesian_product, to: :set_relations
+    delegate :proper_subset?, :proper_superset?, to: :set_relations
+    delegate :subset?, :superset?, to: :set_relations
+    delegate :union, :intersection, :difference, :-, to: :set_relations
 
     def self.big_union(*args)
       args.reduce(&:union)
@@ -46,83 +52,14 @@ module BetterSet
       inspect
     end
 
-    def ==(other)
-      subset?(other) && same_cardinality_as(other)
-    end
-
-    def subset?(other)
-      return false unless same_class_as(other)
-
-      all? { |key| other.member?(key) }
-    end
-
-    def superset?(other)
-      return false unless same_class_as(other)
-
-      other.all? { |element| member?(element) }
-    end
-
-    def proper_subset?(other)
-      subset?(other) && !same_cardinality_as(other)
-    end
-
-    def proper_superset?(other)
-      superset?(other) && !same_cardinality_as(other)
-    end
-
-    def union(other)
-      raise_argument_error unless same_class_as(other)
-
-      Set.new([
-        *self.to_a,
-        *other.to_a,
-      ])
-    end
-
-    def intersection(other)
-      raise_argument_error unless same_class_as(other)
-
-      Set.new(to_a.select { |element|
-        other.member?(element)
-      })
-    end
-
-    def difference(other)
-      raise_argument_error unless same_class_as(other)
-
-      Set.new(to_a.select { |element|
-        !other.member?(element)
-      })
-    end
-
-    def -(other)
-      difference(other)
-    end
-
     def powerset
       Values::Powerset.value(self)
     end
 
-    def cartesian_product(other)
-      raise_argument_error unless same_class_as(other)
-
-      Values::CartesianProduct.value(self, other)
-    end
-
     private
 
-    def same_cardinality_as(other)
-      return false unless same_class_as(other)
-
-      cardinality == other.cardinality
-    end
-
-    def same_class_as(other)
-      other.is_a?(Set)
-    end
-
-    def raise_argument_error
-      raise ArgumentError, "Argument must be a BetterSet"
+    def set_relations
+      @set_relations ||= Values::SetRelations.new(self)
     end
   end
 end
