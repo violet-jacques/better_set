@@ -98,6 +98,15 @@ module BetterSet
       it { should delegate_method(:all?).to(:to_a) }
       it { should delegate_method(:any?).to(:to_a) }
       it { should delegate_method(:none?).to(:to_a) }
+      it { should delegate_method(:cartesian_product).to(:set_relations) }
+      it { should delegate_method(:proper_subset?).to(:set_relations) }
+      it { should delegate_method(:proper_superset?).to(:set_relations) }
+      it { should delegate_method(:subset?).to(:set_relations) }
+      it { should delegate_method(:superset?).to(:set_relations) }
+      it { should delegate_method(:union).to(:set_relations) }
+      it { should delegate_method(:intersection).to(:set_relations) }
+      it { should delegate_method(:difference).to(:set_relations) }
+      it { should delegate_method(:-).to(:set_relations) }
     end
 
     describe "#==" do
@@ -114,17 +123,15 @@ module BetterSet
         context "self is a superset of other" do
           it "returns true" do
             set = Set.new
-            other = Set.new
 
-            expect(set == other).to be(true)
+            expect(set == set).to be(true)
           end
 
           context "self is not a superset of other" do
             it "returns false" do
               set = Set.new
-              other = Set.new(["justine"])
 
-              expect(set == other).to be(false)
+              expect(set == Set.new(["justine"])).to be(false)
             end
           end
         end
@@ -134,266 +141,17 @@ module BetterSet
         context "self is not a super set of other" do
           it "returns false" do
             set = Set.new
-            other = Set.new(["justine"])
 
-            expect(set == other).to be(false)
+            expect(set == Set.new(["justine"])).to be(false)
           end
         end
       end
 
       context "self and other are disjoint" do
         it "returns false" do
-          set = Set.new(["mike"])
-          other = Set.new(["justine"])
-
-          expect(set == other).to be(false)
-        end
-      end
-    end
-
-    describe "#subset?" do
-      context "other is not a set" do
-        it "returns false" do
-          set = Set.new
-          other = "hey"
-
-          expect(set == other).to be(false)
-        end
-      end
-
-      context "self is the empty set" do
-        it "returns true" do
           set = Set.new
 
-          other = Set.new(["hey"])
-
-          expect(set.subset?(other)).to be(true)
-        end
-      end
-
-      context "all of the elements in self are in other" do
-        it "returns true" do
-          set = Set.new(["hey"])
-
-          other = Set.new(["hey", "dawg"])
-
-          expect(set.subset?(other)).to be(true)
-        end
-      end
-
-      context "all of the elements in other are in self" do
-        it "returns false" do
-          other = Set.new(["hey"])
-          set = Set.new(["hey", "dawg"])
-
-          expect(set.subset?(other)).to be(false)
-        end
-      end
-
-      context "self is the same as other" do
-        it "returns true" do
-          set = Set.new(["hey"])
-
-          other = Set.new(["hey"])
-
-          expect(set.subset?(other)).to be(true)
-        end
-      end
-
-      context "at least one of the elements in self is not in other" do
-        it "returns false" do
-          set = Set.new(["yo"])
-
-          other = Set.new(["dawg"])
-
-          expect(set.subset?(other)).to be(false)
-        end
-      end
-    end
-
-    describe "#proper_subset?" do
-      context "other is not a set" do
-        it "returns false" do
-          set = Set.new
-          other = "hey"
-
-          expect(set == other).to be(false)
-        end
-      end
-
-      context "self is the empty set" do
-        context "other is not the empty set" do
-          it "returns true" do
-            set = Set.new
-
-            other = Set.new(["hey"])
-
-            expect(set.proper_subset?(other)).to be(true)
-          end
-        end
-
-        context "other is the empty set" do
-          it "returns false" do
-            set = Set.new
-
-            other = Set.new
-
-            expect(set.proper_subset?(other)).to be(false)
-          end
-        end
-      end
-
-      context "all of the elements in self are in other" do
-        it "returns true" do
-          set = Set.new(["hey"])
-
-          other = Set.new(["hey", "dawg"])
-
-          expect(set.proper_subset?(other)).to be(true)
-        end
-      end
-
-      context "all of the elements in other are in self" do
-        it "returns false" do
-          other = Set.new(["hey"])
-          set = Set.new(["hey", "dawg"])
-
-          expect(set.proper_subset?(other)).to be(false)
-        end
-      end
-
-      context "at least one of the elements in self is not in other" do
-        it "returns false" do
-          set = Set.new(["yo"])
-
-          other = Set.new(["dawg"])
-
-          expect(set.proper_subset?(other)).to be(false)
-        end
-      end
-
-      context "self is a subset of other and a superset" do
-        it "returns false" do
-          set = Set.new(["yo"])
-
-          other = Set.new(["yo"])
-
-          expect(set.proper_subset?(other)).to be(false)
-        end
-      end
-    end
-
-    describe "#superset?" do
-      context "other is not a set" do
-        it "returns false" do
-          set = Set.new
-          other = "hey"
-
-          expect(set == other).to be(false)
-        end
-      end
-
-      context "self is the empty set" do
-        it "returns false" do
-          set = Set.new
-          other = Set.new(["hey"])
-
-          expect(set.superset?(other)).to be(false)
-        end
-      end
-
-      context "all of the elements in self are in other" do
-        it "returns false" do
-          set = Set.new(["hey"])
-          other = Set.new(["hey", "dawg"])
-
-          expect(set.superset?(other)).to be(false)
-        end
-      end
-
-      context "all of the elements in other are in self" do
-        it "returns false" do
-          other = Set.new(["hey"])
-          set = Set.new(["hey", "dawg"])
-
-          expect(set.superset?(other)).to be(true)
-        end
-      end
-
-      context "self is the same as other" do
-        it "returns true" do
-          set = Set.new(["hey"])
-          other = Set.new(["hey"])
-
-          expect(set.superset?(other)).to be(true)
-        end
-      end
-
-      context "at least one of the elements in other is not in self" do
-        it "returns false" do
-          set = Set.new(["yo", "hey"])
-          other = Set.new(["dawg", "yo"])
-
-          expect(set.superset?(other)).to be(false)
-        end
-      end
-    end
-
-    describe "#proper_superset?" do
-      context "other is not a set" do
-        it "returns false" do
-          set = Set.new
-          other = "hey"
-
-          expect(set == other).to be(false)
-        end
-      end
-
-      context "self is the empty set" do
-        context "other is not the empty set" do
-          it "returns false" do
-            set = Set.new
-            other = Set.new(["hey"])
-
-            expect(set.proper_superset?(other)).to be(false)
-          end
-        end
-
-        context "other is the empty set" do
-          it "returns false" do
-            set = Set.new
-            other = Set.new
-
-            expect(set.proper_superset?(other)).to be(false)
-          end
-        end
-      end
-
-      context "all of the elements in other are in self" do
-        it "returns true" do
-          other = Set.new(["hey"])
-          set = Set.new(["hey", "dawg"])
-
-          expect(set.proper_superset?(other)).to be(true)
-        end
-      end
-
-      context "at least one of the elements in other is not in self" do
-        it "returns false" do
-          set = Set.new(["yo", "hey", "son"])
-          other = Set.new(["dawg", "yo"])
-
-          expect(set.proper_superset?(other)).to be(false)
-        end
-      end
-
-      context "self is a superset of other and a subset of other" do
-        it "returns false" do
-          set = Set.new(["yo"])
-
-          other = Set.new(["yo"])
-
-          expect(set.proper_superset?(other)).to be(false)
+          expect(set == Set.new(["justine"])).to be(false)
         end
       end
     end
