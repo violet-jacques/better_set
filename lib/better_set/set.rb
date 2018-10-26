@@ -1,5 +1,5 @@
 require "better_set/values/cartesian_product"
-require "better_set/values/initialize_set"
+require "better_set/initializers/set_initializer"
 require "better_set/values/powerset"
 require "better_set/values/set_relations"
 
@@ -18,7 +18,7 @@ module BetterSet
     end
 
     def initialize(array = [])
-      @hash = Values::InitializeSet.value(array)
+      @hash = Initializers::SetInitializer.value(array)
     end
 
     def cardinality
