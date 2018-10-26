@@ -1,4 +1,4 @@
-require "better_set/values/initialize_ordered_pair"
+require "better_set/initializers/ordered_pair_initializer"
 
 module BetterSet
   class OrderedPair < Set
@@ -21,7 +21,7 @@ module BetterSet
     private
 
     def initial_ordered_pair_array
-      Values::InitializeOrderedPair.value(first, second)
+      Initializers::OrderedPairInitializer.value(first, second)
     end
   end
 end
