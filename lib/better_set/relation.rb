@@ -1,4 +1,4 @@
-require "better_set/values/initialize_relation"
+require "better_set/initializers/relation_initializer"
 
 module BetterSet
   class Relation < Set
@@ -10,7 +10,7 @@ module BetterSet
     private
 
     def initial_argument
-      Values::InitializeRelation.value(@ordered_pairs)
+      Initializers::RelationInitializer.value(@ordered_pairs)
     end
   end
 end

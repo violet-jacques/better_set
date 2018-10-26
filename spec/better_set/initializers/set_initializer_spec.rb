@@ -1,9 +1,9 @@
 module BetterSet
-  module Values
-    RSpec.describe InitializeSet do
+  module Initializers
+    RSpec.describe SetInitializer do
       describe ".value" do
         let(:array) { [1,"h", 3] }
-        subject(:hash) { InitializeSet.value(array) }
+        subject(:hash) { SetInitializer.value(array) }
 
         it "creates a hash from the passed in array" do
           expected_hash = {
@@ -20,7 +20,7 @@ module BetterSet
 
           it "raises an error" do
             expect do
-              InitializeSet.value(array)
+              SetInitializer.value(array)
             end.to raise_error(
               ArgumentError,
               "Argument must be Array class",

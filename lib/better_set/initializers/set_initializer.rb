@@ -1,6 +1,6 @@
 module BetterSet
-  module Values
-    class InitializeSet
+  module Initializers
+    class SetInitializer
       NOT_ARRAY_ERROR_MESSAGE = "Argument must be Array class".freeze
 
       def self.value(array)
