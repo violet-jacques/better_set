@@ -98,6 +98,7 @@ module BetterSet
       it { should delegate_method(:all?).to(:to_a) }
       it { should delegate_method(:any?).to(:to_a) }
       it { should delegate_method(:none?).to(:to_a) }
+      it { should delegate_method(:reduce).to(:to_a) }
     end
 
     describe "#==" do
@@ -621,6 +622,19 @@ module BetterSet
         relation = Relation.new(ordered_pairs)
 
         expect(domain.cartesian_product(range)).to eq(relation)
+      end
+    end
+
+    describe "#partition" do
+      it "divides the given set by the supplied block" do
+        set = Set.new([1,2,3,4,5,6,7,8,9,10])
+        even_set = set.select(&:even?)
+        odd_set = set.select(&:odd?)
+
+        expect(set.partition(&:even?)).to eq(Set.new([
+          even_set,
+          odd_set,
+        ]))
       end
     end
   end

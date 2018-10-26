@@ -2,12 +2,12 @@ require "better_set/values/cartesian_product"
 require "better_set/values/initialize_set"
 require "better_set/values/powerset"
 require "better_set/values/set_relations"
+require "better_set/values/set_enumerations"
 
 module BetterSet
   class Set
+    include Values::SetEnumerations
     include Values::SetRelations
-
-    delegate :all?, :any?, :none?, to: :to_a
 
     def self.big_union(*args)
       args.reduce(&:union)
