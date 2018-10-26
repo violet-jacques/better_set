@@ -1,6 +1,6 @@
 module BetterSet
-  module Values
-    class InitializeRelation
+  module Initializers
+    class RelationInitializer
       def self.value(ordered_pairs)
         new(ordered_pairs).value
       end

@@ -1,6 +1,6 @@
 module BetterSet
-  module Values
-    class InitializeOrderedPair
+  module Initializers
+    class OrderedPairInitializer
       def self.value(first, second)
         new(first, second).value
       end
