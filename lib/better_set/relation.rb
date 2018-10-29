@@ -15,6 +15,12 @@ module BetterSet
       @ordered_pairs.map(&:second)
     end
 
+    def reflexive?
+      domain.all? do |element|
+        @ordered_pairs.member?(OrderedPair.new(element,element))
+      end
+    end
+
     private
 
     def initial_argument
