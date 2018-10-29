@@ -140,5 +140,31 @@ module BetterSet
         end
       end
     end
+
+    describe "#connected?" do
+      let(:set) { Set.new([1,2,3]) }
+      let(:ordered_pair1) { OrderedPair.new(1,2) }
+      let(:ordered_pairs) { Set.new([ordered_pair1]) }
+      subject(:relation) { Relation.new(ordered_pairs) }
+
+      context "for every distinct x,y of the passed set, either <x,y> or <y,x> is in R" do
+        let(:ordered_pair2) { OrderedPair.new(3,1) }
+        let(:ordered_pair3) { OrderedPair.new(3,2) }
+        let(:ordered_pairs) { Set.new([ordered_pair1, ordered_pair2, ordered_pair3]) }
+
+        it "returns true" do
+          expect(relation.connected?(set)).to be(true)
+        end
+      end
+
+      context "there are distinct elements x,y in passed set s.t neither <x,y> or <y,x> is in R" do
+        let(:ordered_pair2) { OrderedPair.new(2,3) }
+        let(:ordered_pairs) { Set.new([ordered_pair1, ordered_pair2]) }
+
+        it "returns false" do
+          expect(relation.connected?(set)).to be(false)
+        end
+      end
+    end
   end
 end
