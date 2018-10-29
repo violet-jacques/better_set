@@ -7,10 +7,22 @@ module BetterSet
       super(initial_argument)
     end
 
+    def domain
+      @ordered_pairs.map(&:first)
+    end
+
+    def range
+      @ordered_pairs.map(&:second)
+    end
+
     private
 
     def initial_argument
       Initializers::RelationInitializer.value(@ordered_pairs)
+    end
+
+    def function?
+      domain.cardinality == @ordered_pairs.cardinality
     end
   end
 end
