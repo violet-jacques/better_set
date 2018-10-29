@@ -118,5 +118,27 @@ module BetterSet
         end
       end
     end
+
+    describe "transitive?" do
+      let(:ordered_pair1) { OrderedPair.new(1, 2) }
+      let(:ordered_pair2) { OrderedPair.new(2, 3) }
+      let(:ordered_pair3) { OrderedPair.new(1, 3) }
+      let(:ordered_pairs) { Set.new([ordered_pair1, ordered_pair2, ordered_pair3]) }
+      let(:relation) { Relation.new(ordered_pairs) }
+
+      context "every pair <x,y> and <y,z>, <x,z> is in R" do
+        it "returns true" do
+          expect(relation.transitive?).to be(true)
+        end
+      end
+
+      context "there is a z s.t. <y,z> is in R and <x,z> is not in R" do
+        let(:ordered_pair3) { OrderedPair.new(4, 3) }
+
+        it "returns false" do
+          expect(relation.transitive?).to be(false)
+        end
+      end
+    end
   end
 end
