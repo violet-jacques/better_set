@@ -86,5 +86,37 @@ module BetterSet
         end
       end
     end
+
+    describe "#antisymmetric?" do
+      let(:ordered_pair1) { OrderedPair.new(1, 2) }
+      let(:ordered_pair2) { OrderedPair.new(2, 3) }
+      let(:ordered_pairs) { Set.new([ordered_pair1, ordered_pair2]) }
+      let(:relation) { Relation.new(ordered_pairs) }
+
+      context "there is no <x,y> in R s.t <y,x> is in R" do
+        it "returns true" do
+          expect(relation.antisymmetric?).to be(true)
+        end
+      end
+
+      context "for all <x,y> in R s.t. <y,x> is in R" do
+        let(:ordered_pair3) { OrderedPair.new(4, 4) }
+        let(:ordered_pairs) { Set.new([ordered_pair1, ordered_pair2, ordered_pair3]) }
+
+        context "if x == y" do
+          it "returns true" do
+            expect(relation.antisymmetric?).to be(true)
+          end
+        end
+
+        context "if x != y" do
+          let(:ordered_pair3) { OrderedPair.new(2, 1) }
+
+          it "returns false" do
+            expect(relation.antisymmetric?).to be(false)
+          end
+        end
+      end
+    end
   end
 end
