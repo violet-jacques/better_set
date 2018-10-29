@@ -64,5 +64,27 @@ module BetterSet
         end
       end
     end
+
+    describe "#symmetric?" do
+      let(:ordered_pair1) { OrderedPair.new(1,1) }
+      let(:ordered_pair2) { OrderedPair.new(2,2) }
+      let(:ordered_pairs) { Set.new([ordered_pair1, ordered_pair2]) }
+      let(:relation) { Relation.new(ordered_pairs) }
+
+      context "for each <x,y> in R, <y,x> is also in R" do
+        it "returns true" do
+          expect(relation.symmetric?).to be(true)
+        end
+      end
+
+      context "there is an <x,y> in R s.t <y,x> is not in R" do
+        let(:new_ordered_pair) { OrderedPair.new(3,4) }
+        let(:ordered_pairs) { Set.new([ordered_pair1, ordered_pair2, new_ordered_pair]) }
+
+        it "returns false" do
+          expect(relation.symmetric?).to be(false)
+        end
+      end
+    end
   end
 end
