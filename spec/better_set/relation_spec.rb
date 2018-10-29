@@ -42,5 +42,27 @@ module BetterSet
         expect(relation.range).to eq(Set.new([2,4]))
       end
     end
+
+    describe "#reflexive?" do
+      let(:reflexive_pair1) { OrderedPair.new(1,1) }
+      let(:reflexive_pair2) { OrderedPair.new(2,2) }
+      let(:ordered_pairs) { Set.new([reflexive_pair1, reflexive_pair2]) }
+      subject(:relation) { Relation.new(ordered_pairs) }
+
+      context "for every x, <x,x> is in R" do
+        it "returns true" do
+          expect(relation.reflexive?).to be(true)
+        end
+      end
+
+      context "there is an element x s.t. <x,x> is not in R" do
+        let(:non_reflexive_pair) { OrderedPair.new(3,4) }
+        let(:ordered_pairs) { Set.new([reflexive_pair1, reflexive_pair2, non_reflexive_pair]) }
+
+        it "returns false" do
+          expect(relation.reflexive?).to be(false)
+        end
+      end
+    end
   end
 end
