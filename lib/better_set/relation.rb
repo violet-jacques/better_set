@@ -1,4 +1,5 @@
 require "better_set/initializers/relation_initializer"
+require "better_set/values/symmetry"
 
 module BetterSet
   class Relation < Set
@@ -19,6 +20,10 @@ module BetterSet
       domain.all? do |element|
         @ordered_pairs.member?(OrderedPair.new(element,element))
       end
+    end
+
+    def symmetric?
+      Values::Symmetry.value(@ordered_pairs)
     end
 
     private
