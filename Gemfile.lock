@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    better_set (0.3.2)
+    better_set (0.3.3)
       activesupport
 
 GEM

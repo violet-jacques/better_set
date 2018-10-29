@@ -26,6 +26,16 @@ module BetterSet
       Values::Symmetry.value(@ordered_pairs)
     end
 
+    def antisymmetric?
+      @ordered_pairs.all? do |ordered_pair|
+        if @ordered_pairs.member?(OrderedPair.new(ordered_pair.second, ordered_pair.first))
+          ordered_pair.second == ordered_pair.first
+        else
+          true
+        end
+      end
+    end
+
     private
 
     def initial_argument
