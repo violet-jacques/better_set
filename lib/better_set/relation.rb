@@ -57,9 +57,9 @@ module BetterSet
       Values::Transitivity.value(@ordered_pairs)
     end
 
-    def connected?(set)
-      set.all? do |element|
-        (set - Set.new([element])).all? do |next_element|
+    def connected?
+      domain.all? do |element|
+        (domain - Set.new([element])).all? do |next_element|
           @ordered_pairs.member?(OrderedPair.new(element, next_element)) ||
             @ordered_pairs.member?(OrderedPair.new(next_element, element))
         end
