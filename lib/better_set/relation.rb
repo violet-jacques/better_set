@@ -17,16 +17,22 @@ module BetterSet
       @ordered_pairs.map(&:second)
     end
 
-    def reflexive?
-      @ordered_pairs.all?(&:reflexive?)
+    def reflexive?(set)
+      set.all? do |element|
+        @ordered_pairs.member?(OrderedPair.new(element, element))
+      end
     end
 
-    def nonreflexive?
-      !reflexive? && @ordered_pairs.any?(&:reflexive?)
+    def nonreflexive?(set)
+      !reflexive?(set) && set.any? do |element|
+        @ordered_pairs.member?(OrderedPair.new(element, element))
+      end
     end
 
-    def irreflexive?
-      @ordered_pairs.none?(&:reflexive?)
+    def irreflexive?(set)
+      set.none? do |element|
+        @ordered_pairs.member?(OrderedPair.new(element, element))
+      end
     end
 
     def symmetric?

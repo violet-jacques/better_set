@@ -44,49 +44,53 @@ module BetterSet
     end
 
     describe "#reflexive?" do
+      let(:set) { Set.new([1,2]) }
       let(:reflexive_pair1) { OrderedPair.new(1,1) }
       let(:reflexive_pair2) { OrderedPair.new(2,2) }
-      let(:ordered_pairs) { Set.new([reflexive_pair1, reflexive_pair2]) }
+      let(:ordered_pair) { OrderedPair.new(1,2) }
+      let(:ordered_pairs) { Set.new([reflexive_pair1, reflexive_pair2, ordered_pair]) }
       subject(:relation) { Relation.new(ordered_pairs) }
 
       context "for every x, <x,x> is in R" do
         it "returns true" do
-          expect(relation.reflexive?).to be(true)
+          expect(relation.reflexive?(set)).to be(true)
         end
       end
 
       context "there is an element x s.t. <x,x> is not in R" do
-        let(:non_reflexive_pair) { OrderedPair.new(3,4) }
-        let(:ordered_pairs) { Set.new([reflexive_pair1, reflexive_pair2, non_reflexive_pair]) }
+        let(:reflexive_pair2) { OrderedPair.new(3, 4) }
+        let(:ordered_pairs) { Set.new([reflexive_pair1, reflexive_pair2]) }
 
         it "returns false" do
-          expect(relation.reflexive?).to be(false)
+          expect(relation.reflexive?(set)).to be(false)
         end
       end
     end
 
     describe "#irreflexive?" do
+      let(:set) { Set.new([1,2]) }
       let(:ordered_pair1) { OrderedPair.new(1, 2) }
-      let(:ordered_pair2) { OrderedPair.new(2, 3) }
+      let(:ordered_pair2) { OrderedPair.new(3, 2) }
       let(:ordered_pairs) { Set.new([ordered_pair1, ordered_pair2]) }
       let(:relation) { Relation.new(ordered_pairs) }
 
       context "there are no x s.t. <x,x> in R" do
         it "returns true" do
-          expect(relation.irreflexive?).to be(true)
+          expect(relation.irreflexive?(set)).to be(true)
         end
       end
 
       context "there is an x s.t. <x,x> in R" do
         let(:ordered_pair2) { OrderedPair.new(2, 2) }
 
-        it "returns true" do
-          expect(relation.irreflexive?).to be(false)
+        it "returns false" do
+          expect(relation.irreflexive?(set)).to be(false)
         end
       end
     end
 
     describe "#nonreflexive?" do
+      let(:set) { Set.new([1,2]) }
       let(:ordered_pair1) { OrderedPair.new(1, 2) }
       let(:ordered_pair2) { OrderedPair.new(2, 2) }
       let(:ordered_pairs) { Set.new([ordered_pair1, ordered_pair2]) }
@@ -95,7 +99,7 @@ module BetterSet
       context "there is an x s.t. <x,x> is in R" do
         context "there is a distinct z, y s.t. <z,y> is in R" do
           it "returns true" do
-            expect(relation.nonreflexive?).to eq(true)
+            expect(relation.nonreflexive?(set)).to eq(true)
           end
         end
 
@@ -103,7 +107,7 @@ module BetterSet
           let(:ordered_pair1) { OrderedPair.new(1, 1) }
 
           it "returns false" do
-            expect(relation.nonreflexive?).to eq(false)
+            expect(relation.nonreflexive?(set)).to eq(false)
           end
         end
       end
