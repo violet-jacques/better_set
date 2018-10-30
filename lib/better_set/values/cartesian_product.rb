@@ -23,7 +23,7 @@ module BetterSet
       end
 
       def product
-        @domain.product(@range)
+        Set.new(*@domain.product(@range))
       end
     end
   end
