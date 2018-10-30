@@ -13,7 +13,7 @@ module BetterSet
       end
 
       def value
-        Set.new(set_elements)
+        subset
       end
 
       private
@@ -22,12 +22,12 @@ module BetterSet
         PowersetPositionFlags.value(@position)
       end
 
-      def set_elements
-        flags.each_with_index.reduce(Array.new) do |memo, (flag, index)|
+      def subset
+        flags.each_with_index.reduce(Set.new) do |memo, (flag, index)|
           if flag
             memo
           else
-            [*memo, *@set.to_a[index]]
+            memo.add(@set.to_a[index])
           end
         end
       end

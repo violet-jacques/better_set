@@ -11,17 +11,17 @@ module BetterSet
       end
 
       def value
-        [first_to_set, second_to_set]
+        Set.new(first_to_set, second_to_set)
       end
 
       private
 
       def first_to_set
-        Set.new([@first])
+        Set.new(@first)
       end
 
       def second_to_set
-        Set.new([@first, @second])
+        Set.new(@first, @second)
       end
     end
   end
