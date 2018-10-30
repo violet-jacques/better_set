@@ -233,7 +233,11 @@ module BetterSet
       end
 
       context "there is a z s.t. <y,z> is in R and <x,z> is not in R" do
-        let(:ordered_pair3) { OrderedPair.new(4, 3) }
+        let(:ordered_pair4) { OrderedPair.new(4, 2) }
+        let(:ordered_pairs) do
+          Set.new([ordered_pair1, ordered_pair2, ordered_pair3, ordered_pair4])
+        end
+
 
         it "returns true" do
           expect(relation.nontransitive?).to be(true)
@@ -256,7 +260,10 @@ module BetterSet
 
       context "there an <x,y> and <y,x> in R s.t. <x,z> is in R" do
         let(:ordered_pair4) { OrderedPair.new(1, 3) }
-        let(:new_ordered_pairs) { ordered_pairs.union(Set.new([ordered_pair4])) }
+        let(:ordered_pair5) { OrderedPair.new(5,6) }
+        let(:new_ordered_pairs) do
+          ordered_pairs.union(Set.new([ordered_pair4, ordered_pair5]))
+        end
         let(:relation) { Relation.new(new_ordered_pairs) }
 
         it "returns false" do
