@@ -65,6 +65,50 @@ module BetterSet
       end
     end
 
+    describe "#irreflexive?" do
+      let(:ordered_pair1) { OrderedPair.new(1, 2) }
+      let(:ordered_pair2) { OrderedPair.new(2, 3) }
+      let(:ordered_pairs) { Set.new([ordered_pair1, ordered_pair2]) }
+      let(:relation) { Relation.new(ordered_pairs) }
+
+      context "there are no x s.t. <x,x> in R" do
+        it "returns true" do
+          expect(relation.irreflexive?).to be(true)
+        end
+      end
+
+      context "there is an x s.t. <x,x> in R" do
+        let(:ordered_pair2) { OrderedPair.new(2, 2) }
+
+        it "returns true" do
+          expect(relation.irreflexive?).to be(false)
+        end
+      end
+    end
+
+    describe "#nonreflexive?" do
+      let(:ordered_pair1) { OrderedPair.new(1, 2) }
+      let(:ordered_pair2) { OrderedPair.new(2, 2) }
+      let(:ordered_pairs) { Set.new([ordered_pair1, ordered_pair2]) }
+      let(:relation) { Relation.new(ordered_pairs) }
+
+      context "there is an x s.t. <x,x> is in R" do
+        context "there is a distinct z, y s.t. <z,y> is in R" do
+          it "returns true" do
+            expect(relation.nonreflexive?).to eq(true)
+          end
+        end
+
+        context "every pair in R is reflexive" do
+          let(:ordered_pair1) { OrderedPair.new(1, 1) }
+
+          it "returns false" do
+            expect(relation.nonreflexive?).to eq(false)
+          end
+        end
+      end
+    end
+
     describe "#symmetric?" do
       let(:ordered_pair1) { OrderedPair.new(1,1) }
       let(:ordered_pair2) { OrderedPair.new(2,2) }
