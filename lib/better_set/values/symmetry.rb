@@ -32,7 +32,7 @@ module BetterSet
       end
 
       def new_ordered_pairs
-        ordered_pairs - Set.new([ordered_pair, inverse_pair])
+        ordered_pairs - Set.new(ordered_pair, inverse_pair)
       end
     end
   end

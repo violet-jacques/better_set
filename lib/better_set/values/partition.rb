@@ -1,5 +1,3 @@
-require "better_set/values/partition_update_evaluation"
-
 module BetterSet
   module Values
     class Partition
@@ -13,19 +11,17 @@ module BetterSet
       end
 
       def value
-        Set.new(set_elements)
+        Set.new(truthy_set, falsy_set)
       end
 
       private
 
-      def set_elements
-        @set.reduce([Set.new, Set.new]) do |memo, element|
-          PartitionUpdateEvaluation.value(
-            memo,
-            element,
-            @block
-          )
-        end
+      def truthy_set
+        @set.select { |element| @block.call(element) }
+      end
+
+      def falsy_set
+        @set - truthy_set
       end
     end
   end
