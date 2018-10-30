@@ -27,12 +27,12 @@ module BetterSet
       end
     end
 
-    describe "#symmetric?" do
+    describe "#reflexive?" do
       context "first and second are identical" do
         let(:second) { first }
 
         it "returns true" do
-          expect(ordered_pair.symmetric?).to be(true)
+          expect(ordered_pair.reflexive?).to be(true)
         end
       end
 
@@ -41,7 +41,7 @@ module BetterSet
         let(:second) { 2 }
 
         it "returns false" do
-          expect(ordered_pair.symmetric?).to be(false)
+          expect(ordered_pair.reflexive?).to be(false)
         end
       end
     end
