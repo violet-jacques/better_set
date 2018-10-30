@@ -75,6 +75,10 @@ module BetterSet
       end
     end
 
+    def equivalence_relation?
+      reflexive? && symmetric? && transitive?
+    end
+
     private
 
     def initial_argument
