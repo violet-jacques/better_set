@@ -1,6 +1,7 @@
 require "better_set/initializers/relation_initializer"
 require "better_set/values/symmetry"
 require "better_set/values/transitivity"
+require "better_set/values/intransitivity"
 
 module BetterSet
   class Relation < Set
@@ -55,6 +56,14 @@ module BetterSet
 
     def transitive?
       Values::Transitivity.value(@ordered_pairs)
+    end
+
+    def nontransitive?
+      !transitive?
+    end
+
+    def intransitive?
+      Values::Intransitivity.value(@ordered_pairs)
     end
 
     def connected?

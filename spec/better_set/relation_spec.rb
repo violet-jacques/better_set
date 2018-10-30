@@ -219,6 +219,52 @@ module BetterSet
       end
     end
 
+    describe "#nontransitive?" do
+      let(:ordered_pair1) { OrderedPair.new(1, 2) }
+      let(:ordered_pair2) { OrderedPair.new(2, 3) }
+      let(:ordered_pair3) { OrderedPair.new(1, 3) }
+      let(:ordered_pairs) { Set.new([ordered_pair1, ordered_pair2, ordered_pair3]) }
+      let(:relation) { Relation.new(ordered_pairs) }
+
+      context "every pair <x,y> and <y,z>, <x,z> is in R" do
+        it "returns false" do
+          expect(relation.nontransitive?).to be(false)
+        end
+      end
+
+      context "there is a z s.t. <y,z> is in R and <x,z> is not in R" do
+        let(:ordered_pair3) { OrderedPair.new(4, 3) }
+
+        it "returns true" do
+          expect(relation.nontransitive?).to be(true)
+        end
+      end
+    end
+
+    describe "#intransitive?" do
+      let(:ordered_pair1) { OrderedPair.new(1, 2) }
+      let(:ordered_pair2) { OrderedPair.new(2, 3) }
+      let(:ordered_pair3) { OrderedPair.new(4, 5) }
+      let(:ordered_pairs) { Set.new([ordered_pair1, ordered_pair2, ordered_pair3]) }
+      let(:relation) { Relation.new(ordered_pairs) }
+
+      context "there is no <x,y> and <y,z> s.t <x,z> is in R" do
+        it "returns true" do
+          expect(relation.intransitive?).to be(true)
+        end
+      end
+
+      context "there an <x,y> and <y,x> in R s.t. <x,z> is in R" do
+        let(:ordered_pair4) { OrderedPair.new(1, 3) }
+        let(:new_ordered_pairs) { ordered_pairs.union(Set.new([ordered_pair4])) }
+        let(:relation) { Relation.new(new_ordered_pairs) }
+
+        it "returns false" do
+          expect(relation.intransitive?).to be(false)
+        end
+      end
+    end
+
     describe "#connected?" do
       let(:ordered_pair1) { OrderedPair.new(1,2) }
       let(:ordered_pair2) { OrderedPair.new(2,3) }
