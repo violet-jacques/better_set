@@ -17,12 +17,20 @@ module BetterSet
       args.reduce(&:intersection)
     end
 
-    def initialize(array = [])
-      @hash = Initializers::SetInitializer.value(array)
+    def initialize(*args)
+      @hash = Initializers::SetInitializer.value(args)
     end
 
     def cardinality
       to_a.length
+    end
+
+    def add(element)
+      union(Set.new(element))
+    end
+
+    def remove(element)
+      difference(Set.new(element))
     end
 
     def to_a

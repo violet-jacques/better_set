@@ -2,7 +2,7 @@ module BetterSet
   RSpec.describe Relation do
     describe "initialize" do
       let(:ordered_pair) { OrderedPair.new(1,2) }
-      let(:ordered_pairs) { Set.new([ordered_pair]) }
+      let(:ordered_pairs) { Set.new(ordered_pair) }
       subject(:relation) { Relation.new(ordered_pairs) }
 
       context "invalid argument" do
@@ -24,22 +24,22 @@ module BetterSet
     describe "#domain" do
       let(:ordered_pair1) { OrderedPair.new(1,2) }
       let(:ordered_pair2) { OrderedPair.new(3,4) }
-      let(:ordered_pairs) { Set.new([ordered_pair1, ordered_pair2]) }
+      let(:ordered_pairs) { Set.new(ordered_pair1, ordered_pair2) }
       let(:relation) { Relation.new(ordered_pairs) }
 
       it "returns a set of the first element of each ordered pair" do
-        expect(relation.domain).to eq(Set.new([1,3]))
+        expect(relation.domain).to eq(Set.new(1,3))
       end
     end
 
     describe "#range" do
       let(:ordered_pair1) { OrderedPair.new(1,2) }
       let(:ordered_pair2) { OrderedPair.new(3,4) }
-      let(:ordered_pairs) { Set.new([ordered_pair1, ordered_pair2]) }
+      let(:ordered_pairs) { Set.new(ordered_pair1, ordered_pair2) }
       let(:relation) { Relation.new(ordered_pairs) }
 
       it "returns a set of the second element of each ordered pair" do
-        expect(relation.range).to eq(Set.new([2,4]))
+        expect(relation.range).to eq(Set.new(2,4))
       end
     end
 
@@ -47,7 +47,7 @@ module BetterSet
       let(:ordered_pair1) { OrderedPair.new(1,1) }
       let(:ordered_pair2) { OrderedPair.new(2,2) }
       let(:ordered_pair3) { OrderedPair.new(2,1) }
-      let(:ordered_pairs) { Set.new([ordered_pair1, ordered_pair2, ordered_pair3]) }
+      let(:ordered_pairs) { Set.new(ordered_pair1, ordered_pair2, ordered_pair3) }
       subject(:relation) { Relation.new(ordered_pairs) }
 
       context "for every x, <x,x> is in R" do
@@ -58,7 +58,7 @@ module BetterSet
 
       context "there is an element x s.t. <x,x> is not in R" do
         let(:ordered_pair4) { OrderedPair.new(3,1) }
-        let(:new_ordered_pairs) { ordered_pairs.union(Set.new([ordered_pair4])) }
+        let(:new_ordered_pairs) { ordered_pairs.union(Set.new(ordered_pair4)) }
         subject(:relation) { Relation.new(new_ordered_pairs) }
 
         it "returns false" do
@@ -70,7 +70,7 @@ module BetterSet
     describe "#irreflexive?" do
       let(:ordered_pair1) { OrderedPair.new(1, 2) }
       let(:ordered_pair2) { OrderedPair.new(2, 3) }
-      let(:ordered_pairs) { Set.new([ordered_pair1, ordered_pair2]) }
+      let(:ordered_pairs) { Set.new(ordered_pair1, ordered_pair2) }
       let(:relation) { Relation.new(ordered_pairs) }
 
       context "there are no x s.t. <x,x> in R" do
@@ -92,7 +92,7 @@ module BetterSet
       let(:ordered_pair1) { OrderedPair.new(1,1) }
       let(:ordered_pair2) { OrderedPair.new(2,2) }
       let(:ordered_pair3) { OrderedPair.new(2,1) }
-      let(:ordered_pairs) { Set.new([ordered_pair1, ordered_pair2, ordered_pair3]) }
+      let(:ordered_pairs) { Set.new(ordered_pair1, ordered_pair2, ordered_pair3) }
       subject(:relation) { Relation.new(ordered_pairs) }
 
       context "for every x, <x,x> is in R" do
@@ -103,7 +103,7 @@ module BetterSet
 
       context "there is an element x s.t. <x,x> is not in R" do
         let(:ordered_pair4) { OrderedPair.new(3,1) }
-        let(:new_ordered_pairs) { ordered_pairs.union(Set.new([ordered_pair4])) }
+        let(:new_ordered_pairs) { ordered_pairs.union(Set.new(ordered_pair4)) }
         subject(:relation) { Relation.new(new_ordered_pairs) }
 
         it "returns true" do
@@ -115,7 +115,7 @@ module BetterSet
     describe "#symmetric?" do
       let(:ordered_pair1) { OrderedPair.new(1,1) }
       let(:ordered_pair2) { OrderedPair.new(2,2) }
-      let(:ordered_pairs) { Set.new([ordered_pair1, ordered_pair2]) }
+      let(:ordered_pairs) { Set.new(ordered_pair1, ordered_pair2) }
       let(:relation) { Relation.new(ordered_pairs) }
 
       context "for each <x,y> in R, <y,x> is also in R" do
@@ -126,7 +126,7 @@ module BetterSet
 
       context "there is an <x,y> in R s.t <y,x> is not in R" do
         let(:new_ordered_pair) { OrderedPair.new(3,4) }
-        let(:ordered_pairs) { Set.new([ordered_pair1, ordered_pair2, new_ordered_pair]) }
+        let(:ordered_pairs) { Set.new(ordered_pair1, ordered_pair2, new_ordered_pair) }
 
         it "returns false" do
           expect(relation.symmetric?).to be(false)
@@ -137,7 +137,7 @@ module BetterSet
     describe "#antisymmetric?" do
       let(:ordered_pair1) { OrderedPair.new(1, 2) }
       let(:ordered_pair2) { OrderedPair.new(2, 3) }
-      let(:ordered_pairs) { Set.new([ordered_pair1, ordered_pair2]) }
+      let(:ordered_pairs) { Set.new(ordered_pair1, ordered_pair2) }
       let(:relation) { Relation.new(ordered_pairs) }
 
       context "there is no <x,y> in R s.t <y,x> is in R" do
@@ -148,7 +148,7 @@ module BetterSet
 
       context "for all <x,y> in R s.t. <y,x> is in R" do
         let(:ordered_pair3) { OrderedPair.new(4, 4) }
-        let(:ordered_pairs) { Set.new([ordered_pair1, ordered_pair2, ordered_pair3]) }
+        let(:ordered_pairs) { Set.new(ordered_pair1, ordered_pair2, ordered_pair3) }
 
         context "if x == y" do
           it "returns true" do
@@ -169,7 +169,7 @@ module BetterSet
     describe "#asymmetric?" do
       let(:ordered_pair1) { OrderedPair.new(1, 2) }
       let(:ordered_pair2) { OrderedPair.new(2, 3) }
-      let(:ordered_pairs) { Set.new([ordered_pair1, ordered_pair2]) }
+      let(:ordered_pairs) { Set.new(ordered_pair1, ordered_pair2) }
       let(:relation) { Relation.new(ordered_pairs) }
 
       context "there are no x,y s.t. <x,y> and <y,x> are in R" do
@@ -180,7 +180,7 @@ module BetterSet
 
       context "there is at least one x,y s.t. <x,y> and <y,x> are in R" do
         let(:ordered_pair3) { OrderedPair.new(3,2) }
-        let(:ordered_pairs) { Set.new([ordered_pair1, ordered_pair2, ordered_pair3]) }
+        let(:ordered_pairs) { Set.new(ordered_pair1, ordered_pair2, ordered_pair3) }
 
         it "returns false" do
           expect(relation.asymmetric?).to be(false)
@@ -189,7 +189,7 @@ module BetterSet
 
       context "there is a reflexive pair in R" do
         let(:ordered_pair3) { OrderedPair.new(3,3) }
-        let(:ordered_pairs) { Set.new([ordered_pair1, ordered_pair2, ordered_pair3]) }
+        let(:ordered_pairs) { Set.new(ordered_pair1, ordered_pair2, ordered_pair3) }
 
         it "returns false" do
           expect(relation.symmetric?).to be(false)
@@ -201,7 +201,7 @@ module BetterSet
       let(:ordered_pair1) { OrderedPair.new(1, 2) }
       let(:ordered_pair2) { OrderedPair.new(2, 3) }
       let(:ordered_pair3) { OrderedPair.new(1, 3) }
-      let(:ordered_pairs) { Set.new([ordered_pair1, ordered_pair2, ordered_pair3]) }
+      let(:ordered_pairs) { Set.new(ordered_pair1, ordered_pair2, ordered_pair3) }
       let(:relation) { Relation.new(ordered_pairs) }
 
       context "every pair <x,y> and <y,z>, <x,z> is in R" do
@@ -223,7 +223,7 @@ module BetterSet
       let(:ordered_pair1) { OrderedPair.new(1, 2) }
       let(:ordered_pair2) { OrderedPair.new(2, 3) }
       let(:ordered_pair3) { OrderedPair.new(1, 3) }
-      let(:ordered_pairs) { Set.new([ordered_pair1, ordered_pair2, ordered_pair3]) }
+      let(:ordered_pairs) { Set.new(ordered_pair1, ordered_pair2, ordered_pair3) }
       let(:relation) { Relation.new(ordered_pairs) }
 
       context "every pair <x,y> and <y,z>, <x,z> is in R" do
@@ -235,7 +235,7 @@ module BetterSet
       context "there is a z s.t. <y,z> is in R and <x,z> is not in R" do
         let(:ordered_pair4) { OrderedPair.new(4, 2) }
         let(:ordered_pairs) do
-          Set.new([ordered_pair1, ordered_pair2, ordered_pair3, ordered_pair4])
+          Set.new(ordered_pair1, ordered_pair2, ordered_pair3, ordered_pair4)
         end
 
 
@@ -249,7 +249,7 @@ module BetterSet
       let(:ordered_pair1) { OrderedPair.new(1, 2) }
       let(:ordered_pair2) { OrderedPair.new(2, 3) }
       let(:ordered_pair3) { OrderedPair.new(4, 5) }
-      let(:ordered_pairs) { Set.new([ordered_pair1, ordered_pair2, ordered_pair3]) }
+      let(:ordered_pairs) { Set.new(ordered_pair1, ordered_pair2, ordered_pair3) }
       let(:relation) { Relation.new(ordered_pairs) }
 
       context "there is no <x,y> and <y,z> s.t <x,z> is in R" do
@@ -262,7 +262,7 @@ module BetterSet
         let(:ordered_pair4) { OrderedPair.new(1, 3) }
         let(:ordered_pair5) { OrderedPair.new(5,6) }
         let(:new_ordered_pairs) do
-          ordered_pairs.union(Set.new([ordered_pair4, ordered_pair5]))
+          ordered_pairs.union(Set.new(ordered_pair4, ordered_pair5))
         end
         let(:relation) { Relation.new(new_ordered_pairs) }
 
@@ -276,7 +276,7 @@ module BetterSet
       let(:ordered_pair1) { OrderedPair.new(1,2) }
       let(:ordered_pair2) { OrderedPair.new(2,3) }
       let(:ordered_pair3) { OrderedPair.new(3,1) }
-      let(:ordered_pairs) { Set.new([ordered_pair1, ordered_pair2, ordered_pair3]) }
+      let(:ordered_pairs) { Set.new(ordered_pair1, ordered_pair2, ordered_pair3) }
       subject(:relation) { Relation.new(ordered_pairs) }
 
       context "for all x,y in domain(R), either <x,y> or <y,x>" do
@@ -287,7 +287,7 @@ module BetterSet
 
       context "there is an x,y in domain(R) s.t., neither <x,y> or <y,x>" do
         let(:ordered_pair3) { OrderedPair.new(4,7) }
-        let(:new_ordered_pairs) { ordered_pairs.union(Set.new([ordered_pair3])) }
+        let(:new_ordered_pairs) { ordered_pairs.union(Set.new(ordered_pair3)) }
         subject(:relation) { Relation.new(new_ordered_pairs) }
 
         it "returns false" do

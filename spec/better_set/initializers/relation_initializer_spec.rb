@@ -13,11 +13,11 @@ module BetterSet
 
         it "returns an array of the set of ordered pairs" do
           ordered_pair = OrderedPair.new(1,2)
-          ordered_pairs = Set.new([ordered_pair])
+          ordered_pairs = Set.new(ordered_pair)
 
-          expect(RelationInitializer.value(ordered_pairs)).to eq([
+          expect(RelationInitializer.value(ordered_pairs)).to eq(Set.new(
             ordered_pair
-          ])
+          ))
         end
       end
     end

@@ -15,19 +15,6 @@ module BetterSet
           expect(hash).to eq(expected_hash)
         end
 
-        context "passed value not an array" do
-          let(:array) { "sup" }
-
-          it "raises an error" do
-            expect do
-              SetInitializer.value(array)
-            end.to raise_error(
-              ArgumentError,
-              "Argument must be Array class",
-            )
-          end
-        end
-
         context "array contains dupes" do
           let(:array) { [1,1, "h", "h", 3, 3] }
 
