@@ -43,6 +43,12 @@ module BetterSet
       end
     end
 
+    def asymmetric?
+      @ordered_pairs.none? do |ordered_pair|
+        @ordered_pairs.member?(OrderedPair.new(ordered_pair.second, ordered_pair.first))
+      end
+    end
+
     def transitive?
       Values::Transitivity.value(@ordered_pairs)
     end
