@@ -295,5 +295,156 @@ module BetterSet
         end
       end
     end
+    describe "equivalence_relation?" do
+      let(:ordered_pair1) { OrderedPair.new(1, 2) }
+      let(:ordered_pair2) { OrderedPair.new(2, 3) }
+      let(:ordered_pair3) { OrderedPair.new(1, 3) }
+      let(:ordered_pair4) { OrderedPair.new(2, 1) }
+      let(:ordered_pair5) { OrderedPair.new(3, 1) }
+      let(:ordered_pair6) { OrderedPair.new(3, 2) }
+      let(:ordered_pair7) { OrderedPair.new(1, 1) }
+      let(:ordered_pair8) { OrderedPair.new(2, 2) }
+      let(:ordered_pair9) { OrderedPair.new(3, 3) }
+      let(:ordered_pairs) do
+        Set.new(
+          ordered_pair1,
+          ordered_pair2,
+          ordered_pair3,
+          ordered_pair4,
+          ordered_pair5,
+          ordered_pair6,
+          ordered_pair7,
+          ordered_pair8,
+          ordered_pair9
+        )
+      end
+      subject(:relation) { Relation.new(ordered_pairs) }
+
+      context "relation is symmetric" do
+        context "relation is transitive" do
+          context "relation is reflexive" do
+            it "returns true" do
+              expect(relation.symmetric?).to be(true)
+              expect(relation.transitive?).to be(true)
+              expect(relation.reflexive?).to be(true)
+              expect(relation.equivalence_relation?).to be(true)
+            end
+          end
+        end
+
+        context "relation is not transitive" do
+          context "relation is reflexive" do
+            let(:ordered_pairs) do
+              Set.new(
+                ordered_pair2,
+                ordered_pair3,
+                ordered_pair5,
+                ordered_pair6,
+                ordered_pair7,
+                ordered_pair8,
+                ordered_pair9
+              )
+            end
+
+            it "returns false" do
+              expect(relation.symmetric?).to be(true)
+              expect(relation.transitive?).to be(false)
+              expect(relation.reflexive?).to be(true)
+              expect(relation.equivalence_relation?).to be(false)
+            end
+          end
+
+          context "relation is not reflexive" do
+            let(:ordered_pairs) do
+              Set.new(
+                ordered_pair2,
+                ordered_pair3,
+                ordered_pair5,
+                ordered_pair6,
+              )
+            end
+
+            it "returns false" do
+              expect(relation.symmetric?).to be(true)
+              expect(relation.transitive?).to be(false)
+              expect(relation.reflexive?).to be(false)
+              expect(relation.equivalence_relation?).to be(false)
+            end
+          end
+        end
+      end
+
+      context "relation is not symmetric" do
+        context "relation is transitive" do
+          context "relation is reflexive" do
+            let(:ordered_pairs) do
+              Set.new(
+                ordered_pair1,
+                ordered_pair7
+              )
+            end
+
+            it "returns false" do
+              expect(relation.symmetric?).to be(false)
+              expect(relation.transitive?).to be(true)
+              expect(relation.reflexive?).to be(true)
+              expect(relation.equivalence_relation?).to be(false)
+            end
+          end
+
+          context "relation is not reflexive" do
+            let(:ordered_pairs) do
+              Set.new(
+                ordered_pair1,
+              )
+            end
+
+            it "returns false" do
+              expect(relation.symmetric?).to be(false)
+              expect(relation.transitive?).to be(true)
+              expect(relation.reflexive?).to be(false)
+              expect(relation.equivalence_relation?).to be(false)
+            end
+          end
+        end
+
+        context "relation is not transitive" do
+          context "relation is reflexive" do
+            let(:ordered_pairs) do
+              Set.new(
+                ordered_pair7,
+                ordered_pair3,
+                ordered_pair6,
+                ordered_pair9,
+              )
+            end
+
+            it "returns false" do
+              expect(relation.symmetric?).to be(false)
+              expect(relation.transitive?).to be(false)
+              expect(relation.reflexive?).to be(true)
+              expect(relation.equivalence_relation?).to be(false)
+            end
+          end
+
+          context "relation is not reflexive" do
+            let(:ordered_pairs) do
+              Set.new(
+                ordered_pair7,
+                ordered_pair3,
+                ordered_pair6,
+              )
+            end
+
+            it "returns false" do
+              expect(relation.symmetric?).to be(false)
+              expect(relation.transitive?).to be(false)
+              expect(relation.reflexive?).to be(false)
+              expect(relation.equivalence_relation?).to be(false)
+            end
+          end
+        end
+      end
+    end
   end
 end
