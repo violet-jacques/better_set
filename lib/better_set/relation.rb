@@ -7,7 +7,7 @@ module BetterSet
   class Relation < Set
     def initialize(ordered_pairs)
       @ordered_pairs = ordered_pairs
-      super(initial_argument)
+      super(*initial_argument)
     end
 
     def domain
@@ -68,7 +68,7 @@ module BetterSet
 
     def connected?
       domain.all? do |element|
-        (domain - Set.new([element])).all? do |next_element|
+        (domain.remove(element)).all? do |next_element|
           @ordered_pairs.member?(OrderedPair.new(element, next_element)) ||
             @ordered_pairs.member?(OrderedPair.new(next_element, element))
         end

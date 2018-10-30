@@ -7,7 +7,7 @@ module BetterSet
     def initialize(first, second)
       @first = first
       @second = second
-      super(initial_ordered_pair_array)
+      super(*initial_ordered_pair_set)
     end
 
     def inspect
@@ -20,7 +20,7 @@ module BetterSet
 
     private
 
-    def initial_ordered_pair_array
+    def initial_ordered_pair_set
       Initializers::OrderedPairInitializer.value(first, second)
     end
   end

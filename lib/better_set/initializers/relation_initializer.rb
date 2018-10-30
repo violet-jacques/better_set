@@ -16,7 +16,7 @@ module BetterSet
       private
 
       def initial_value
-        @ordered_pairs.to_a
+        @ordered_pairs
       end
 
       def handle_incorrect_argument

@@ -15,8 +15,8 @@ module BetterSet
 
       it "creates a set out of these as you would expect" do
         expect(ordered_pair.instance_variable_get(:@hash).keys).to eq([
-          Set.new([first]),
-          Set.new([first, second])
+          Set.new(first),
+          Set.new(first, second)
         ])
       end
     end
