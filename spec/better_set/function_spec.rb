@@ -3,7 +3,7 @@ module BetterSet
     describe "initialization" do
       let(:ordered_pair1) { OrderedPair.new(1,2) }
       let(:ordered_pair2) { OrderedPair.new(3,4) }
-      let(:ordered_pairs) { Set.new([ordered_pair1, ordered_pair2]) }
+      let(:ordered_pairs) { Set.new(ordered_pair1, ordered_pair2) }
       subject(:function) { Function.new(ordered_pairs) }
 
       context "element in domain points to two in range" do

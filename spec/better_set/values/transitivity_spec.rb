@@ -5,7 +5,7 @@ module BetterSet
         let(:ordered_pair1) { OrderedPair.new(1, 2) }
         let(:ordered_pair2) { OrderedPair.new(2, 3) }
         let(:ordered_pair3) { OrderedPair.new(1, 3) }
-        let(:ordered_pairs) { Set.new([ordered_pair1, ordered_pair2, ordered_pair3]) }
+        let(:ordered_pairs) { Set.new(ordered_pair1, ordered_pair2, ordered_pair3) }
         let(:value) { Transitivity.value(ordered_pairs) }
 
         context "every pair <x,y> and <y,z>, <x,z> is in R" do

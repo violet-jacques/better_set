@@ -14,12 +14,12 @@ module BetterSet
       end
 
       it "returns the union of all passed in sets" do
-        set = Set.new([1])
-        set2 = Set.new([1,2])
-        set3 = Set.new(["a", "b"])
+        set = Set.new(1)
+        set2 = Set.new(1,2)
+        set3 = Set.new("a", "b")
 
         expect(Set.big_union(set, set2, set3)).to eq(
-          Set.new([1, 2, "a", "b"])
+          Set.new(1, 2, "a", "b")
         )
       end
     end
@@ -38,12 +38,12 @@ module BetterSet
       end
 
       it "returns the union of all passed in sets" do
-        set = Set.new([1])
-        set2 = Set.new([1,2])
-        set3 = Set.new(["a", "b", 1])
+        set = Set.new(1)
+        set2 = Set.new(1, 2)
+        set3 = Set.new("a", "b", 1)
 
         expect(Set.big_intersection(set, set2, set3)).to eq(
-          Set.new([1])
+          Set.new(1)
         )
       end
     end
@@ -57,18 +57,9 @@ module BetterSet
         end
       end
 
-      context "argument is not an array" do
-        it "raises an error" do
-          expect { Set.new("hey") }.to raise_error(
-            ArgumentError,
-            "Argument must be Array class",
-          )
-        end
-      end
-
       context "array of stuff" do
         it "creates and stores hash out of the array" do
-          set = Set.new(["justine"])
+          set = Set.new("justine")
 
           expect(set.instance_variable_get(:@hash)).to eq(
             "justine" => true,
@@ -78,7 +69,7 @@ module BetterSet
 
       context "duplicates" do
         it "does not store duplicates" do
-          set = Set.new(["justine", "justine", 1, 1])
+          set = Set.new("justine", "justine", 1, 1)
 
           expect(set.instance_variable_get(:@hash)).to eq(
             "justine" => true,
@@ -88,7 +79,7 @@ module BetterSet
 
         context "of type set" do
           it "does not store dupes" do
-            expect(Set.new([Set.new, Set.new])).to eq(Set.new([Set.new]))
+            expect(Set.new(Set.new, Set.new)).to eq(Set.new(Set.new))
           end
         end
       end
@@ -99,6 +90,22 @@ module BetterSet
       it { should delegate_method(:any?).to(:to_a) }
       it { should delegate_method(:none?).to(:to_a) }
       it { should delegate_method(:reduce).to(:to_a) }
+    end
+
+    describe "#add" do
+      it "returns a set including the new element" do
+        set = Set.new(1)
+
+        expect(set.add(2)).to eq(Set.new(1,2))
+      end
+    end
+
+    describe "#remove" do
+      it "returns a set excluding the new element" do
+        set = Set.new(2,1,3)
+
+        expect(set.remove(2)).to eq(Set.new(3,1))
+      end
     end
 
     describe "#==" do
@@ -123,7 +130,7 @@ module BetterSet
             it "returns false" do
               set = Set.new
 
-              expect(set == Set.new(["justine"])).to be(false)
+              expect(set == Set.new("justine")).to be(false)
             end
           end
         end
@@ -134,7 +141,7 @@ module BetterSet
           it "returns false" do
             set = Set.new
 
-            expect(set == Set.new(["justine"])).to be(false)
+            expect(set == Set.new("justine")).to be(false)
           end
         end
       end
@@ -143,7 +150,7 @@ module BetterSet
         it "returns false" do
           set = Set.new
 
-          expect(set == Set.new(["justine"])).to be(false)
+          expect(set == Set.new("justine")).to be(false)
         end
       end
     end
@@ -159,45 +166,45 @@ module BetterSet
 
       context "self is the empty set" do
         it "returns true" do
-          expect(set.subset?(Set.new(["hey"]))).to be(true)
+          expect(set.subset?(Set.new("hey"))).to be(true)
         end
       end
 
       context "all of the elements in self are in other" do
-        let(:set) { Set.new(["hey"]) }
+        let(:set) { Set.new("hey") }
 
         it "returns true" do
-          other = Set.new(["hey", "dawg"])
+          other = Set.new("hey", "dawg")
 
           expect(set.subset?(other)).to be(true)
         end
       end
 
       context "all of the elements in other are in self" do
-        let(:set) { Set.new(["hey", "dawg"]) }
+        let(:set) { Set.new("hey", "dawg") }
 
         it "returns false" do
-          other = Set.new(["hey"])
+          other = Set.new("hey")
 
           expect(set.subset?(other)).to be(false)
         end
       end
 
       context "self is the same as other" do
-        let(:set) { Set.new(["hey"]) }
+        let(:set) { Set.new("hey") }
 
         it "returns true" do
-          other = Set.new(["hey"])
+          other = Set.new("hey")
 
           expect(set.subset?(other)).to be(true)
         end
       end
 
       context "at least one of the elements in self is not in other" do
-        let(:set) { Set.new(["hey"]) }
+        let(:set) { Set.new("hey") }
 
         it "returns false" do
-          other = Set.new(["dawg"])
+          other = Set.new("dawg")
 
           expect(set.subset?(other)).to be(false)
         end
@@ -216,7 +223,7 @@ module BetterSet
       context "self is the empty set" do
         context "other is not the empty set" do
           it "returns true" do
-            expect(set.proper_subset?(Set.new(["hey"]))).to be(true)
+            expect(set.proper_subset?(Set.new("hey"))).to be(true)
           end
         end
 
@@ -228,40 +235,40 @@ module BetterSet
       end
 
       context "all of the elements in self are in other" do
-        let(:set) { Set.new(["hey"]) }
+        let(:set) { Set.new("hey") }
 
         it "returns true" do
-          other = Set.new(["hey", "dawg"])
+          other = Set.new("hey", "dawg")
 
           expect(set.proper_subset?(other)).to be(true)
         end
       end
 
       context "all of the elements in other are in self" do
-        let(:set) { Set.new(["hey", "dawg"]) }
+        let(:set) { Set.new("hey", "dawg") }
 
         it "returns false" do
-          other = Set.new(["hey"])
+          other = Set.new("hey")
 
           expect(set.proper_subset?(other)).to be(false)
         end
       end
 
       context "at least one of the elements in self is not in other" do
-        let(:set) { Set.new(["yo"]) }
+        let(:set) { Set.new("yo") }
 
         it "returns false" do
-          other = Set.new(["dawg"])
+          other = Set.new("dawg")
 
           expect(set.proper_subset?(other)).to be(false)
         end
       end
 
       context "self is a subset of other and a superset" do
-        let(:set) { Set.new(["yo"]) }
+        let(:set) { Set.new("yo") }
 
         it "returns false" do
-          other = Set.new(["yo"])
+          other = Set.new("yo")
 
           expect(set.proper_subset?(other)).to be(false)
         end
@@ -279,47 +286,47 @@ module BetterSet
 
       context "self is the empty set" do
         it "returns false" do
-          other = Set.new(["hey"])
+          other = Set.new("hey")
 
           expect(set.superset?(other)).to be(false)
         end
       end
 
       context "all of the elements in self are in other" do
-        let(:set) { Set.new(["hey"]) }
+        let(:set) { Set.new("hey") }
 
         it "returns false" do
-          other = Set.new(["hey", "dawg"])
+          other = Set.new("hey", "dawg")
 
           expect(set.superset?(other)).to be(false)
         end
       end
 
       context "all of the elements in other are in self" do
-        let(:set) { Set.new(["hey", "dawg"]) }
+        let(:set) { Set.new("hey", "dawg") }
 
         it "returns false" do
-          other = Set.new(["hey"])
+          other = Set.new("hey")
 
           expect(set.superset?(other)).to be(true)
         end
       end
 
       context "self is the same as other" do
-        let(:set) { Set.new(["hey"]) }
+        let(:set) { Set.new("hey") }
 
         it "returns true" do
-          other = Set.new(["hey"])
+          other = Set.new("hey")
 
           expect(set.superset?(other)).to be(true)
         end
       end
 
       context "at least one of the elements in other is not in self" do
-        let(:set) { Set.new(["yo", "hey"]) }
+        let(:set) { Set.new("yo", "hey") }
 
         it "returns false" do
-          other = Set.new(["dawg", "yo"])
+          other = Set.new("dawg", "yo")
 
           expect(set.superset?(other)).to be(false)
         end
@@ -338,7 +345,7 @@ module BetterSet
       context "self is the empty set" do
         context "other is not the empty set" do
           it "returns false" do
-            other = Set.new(["hey"])
+            other = Set.new("hey")
 
             expect(set.proper_superset?(other)).to be(false)
           end
@@ -354,27 +361,27 @@ module BetterSet
       end
 
       context "all of the elements in other are in self" do
-        let(:set) { Set.new(["hey", "dawg"]) }
+        let(:set) { Set.new("hey", "dawg") }
 
         it "returns true" do
-          other = Set.new(["hey"])
+          other = Set.new("hey")
 
           expect(set.proper_superset?(other)).to be(true)
         end
       end
 
       context "at least one of the elements in other is not in self" do
-        let(:set) { Set.new(["yo", "hey", "son"]) }
+        let(:set) { Set.new("yo", "hey", "son") }
 
         it "returns false" do
-          other = Set.new(["dawg", "yo"])
+          other = Set.new("dawg", "yo")
 
           expect(set.proper_superset?(other)).to be(false)
         end
       end
 
       context "self is a superset of other and a subset of other" do
-        let(:set) { Set.new(["yo"]) }
+        let(:set) { Set.new("yo") }
 
         it "returns false" do
           expect(set.proper_superset?(set)).to be(false)
@@ -393,7 +400,7 @@ module BetterSet
 
       context "non empty" do
         it "returns the correct representation" do
-          set = Set.new(["justine", 4, [1, "hey"], {foo: :bar}])
+          set = Set.new("justine", 4, [1, "hey"], {foo: :bar})
 
           expect(set.inspect).to eq('{"justine", 4, [1, "hey"], {:foo=>:bar}}')
         end
@@ -411,7 +418,7 @@ module BetterSet
 
       context "non empty" do
         it "returns the correct representation" do
-          set = Set.new(["justine", 4, [1, "hey"], {foo: :bar}])
+          set = Set.new("justine", 4, [1, "hey"], {foo: :bar})
 
           expect(set.to_s).to eq('{"justine", 4, [1, "hey"], {:foo=>:bar}}')
         end
@@ -420,22 +427,18 @@ module BetterSet
 
     describe "#to_a" do
       it "returns an array of the elements in the set" do
-        array = [1,2,3]
-        second_array = [1,1,2,3]
-        set = Set.new(array)
-        other_set = Set.new(second_array)
+        set = Set.new(1,2,3)
+        other_set = Set.new(1,1,2,3)
 
-        expect(set.to_a).to eq(array)
-        expect(other_set.to_a).to eq(array)
+        expect(set.to_a).to eq([1,2,3])
+        expect(other_set.to_a).to eq([1,2,3])
       end
     end
 
     describe "#cardinality" do
       it "returns the length of the set" do
-        array = [1,2,3]
-        second_array = [1,1,2,3]
-        set = Set.new(array)
-        other_set = Set.new(second_array)
+        set = Set.new(1,2,3)
+        other_set = Set.new(1,1,2,3)
 
         expect(set.cardinality).to eq(3)
         expect(other_set.cardinality).to eq(3)
@@ -445,7 +448,7 @@ module BetterSet
     describe "#member?" do
       context "set does not contain supplied element" do
         it "returns false" do
-          set = Set.new([1,2,3])
+          set = Set.new(1,2,3)
 
           expect(set.member?(4)).to be(false)
         end
@@ -453,7 +456,7 @@ module BetterSet
 
       context "set contains supplied element" do
         it "returns true" do
-          set = Set.new([1,2,3])
+          set = Set.new(1,2,3)
 
           expect(set.member?(2)).to be(true)
         end
@@ -474,13 +477,11 @@ module BetterSet
       end
 
       it "returns a set with all the elements from both sets" do
-        array = [1,2,3]
-        array2 = ["hey", 3, Set.new]
-        set = Set.new(array)
-        set2 = Set.new(array2)
+        set = Set.new(1,2,3)
+        set2 = Set.new("hey", 3, Set.new)
 
         expect(set.union(set2)).to eq(
-          Set.new([1, 2, 3, "hey", Set.new])
+          Set.new(1, 2, 3, "hey", Set.new)
         )
       end
     end
@@ -499,13 +500,11 @@ module BetterSet
       end
 
       it "returns a set with only the elements in both sets" do
-        array = [1,Set.new, 3]
-        array2 = ["hey", 3, Set.new]
-        set = Set.new(array)
-        set2 = Set.new(array2)
+        set = Set.new(1,Set.new, 3)
+        set2 = Set.new("hey", 3, Set.new)
 
         expect(set.intersection(set2)).to eq(
-          Set.new([3, Set.new])
+          Set.new(3, Set.new)
         )
       end
     end
@@ -524,13 +523,11 @@ module BetterSet
       end
 
       it "returns a set with all the elements in self but not in other" do
-        array = [1,Set.new, 3]
-        array2 = ["hey", 3, Set.new]
-        set = Set.new(array)
-        set2 = Set.new(array2)
+        set = Set.new(1,Set.new, 3)
+        set2 = Set.new("hey", 3, Set.new)
 
         expect(set.difference(set2)).to eq(
-          Set.new([1])
+          Set.new(1)
         )
       end
     end
@@ -549,13 +546,11 @@ module BetterSet
       end
 
       it "returns a set with all the elements in self but not in other" do
-        array = [1,Set.new, 3]
-        array2 = ["hey", 3, Set.new]
-        set = Set.new(array)
-        set2 = Set.new(array2)
+        set = Set.new(1,Set.new, 3)
+        set2 = Set.new("hey", 3, Set.new)
 
         expect(set - set2).to eq(
-          Set.new([1])
+          Set.new(1)
         )
       end
     end
@@ -563,7 +558,7 @@ module BetterSet
     describe "empty?" do
       context "it is empty" do
         it "returns false" do
-          set = Set.new([1])
+          set = Set.new(1)
 
           expect(set.empty?).to be(false)
         end
@@ -581,15 +576,15 @@ module BetterSet
     describe "#powerset" do
       it "returns the set of all subsets of self" do
         set = Set.new
-        set2 = Set.new([1,2])
+        set2 = Set.new(1,2)
 
-        expect(set.powerset).to eq(Set.new([Set.new]))
-        expect(set2.powerset).to eq(Set.new([
+        expect(set.powerset).to eq(Set.new(Set.new))
+        expect(set2.powerset).to eq(Set.new(
           Set.new,
-          Set.new([1]),
-          Set.new([2]),
-          Set.new([1,2]),
-        ]))
+          Set.new(1),
+          Set.new(2),
+          Set.new(1,2),
+        ))
       end
     end
 
@@ -607,18 +602,18 @@ module BetterSet
       end
 
       it "returns the cartesian product of two sets as a relation" do
-        domain = Set.new([1,2])
-        range = Set.new([3,4])
+        domain = Set.new(1,2)
+        range = Set.new(3,4)
         ordered_pair = OrderedPair.new(1,3)
         ordered_pair2 = OrderedPair.new(1,4)
         ordered_pair3 = OrderedPair.new(2,3)
         ordered_pair4 = OrderedPair.new(2,4)
-        ordered_pairs = Set.new([
+        ordered_pairs = Set.new(
           ordered_pair,
           ordered_pair2,
           ordered_pair3,
           ordered_pair4
-        ])
+        )
         relation = Relation.new(ordered_pairs)
 
         expect(domain.cartesian_product(range)).to eq(relation)
@@ -627,14 +622,14 @@ module BetterSet
 
     describe "#partition" do
       it "divides the given set by the supplied block" do
-        set = Set.new([1,2,3,4,5,6,7,8,9,10])
+        set = Set.new(1,2,3,4,5,6,7,8,9,10)
         even_set = set.select(&:even?)
         odd_set = set.select(&:odd?)
 
-        expect(set.partition(&:even?)).to eq(Set.new([
+        expect(set.partition(&:even?)).to eq(Set.new(
           even_set,
           odd_set,
-        ]))
+        ))
       end
     end
   end
