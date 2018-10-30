@@ -6,10 +6,10 @@ module BetterSet
           first = 1
           second = 2
 
-          expect(OrderedPairInitializer.value(first,second)).to eq([
-            Set.new([first]),
-            Set.new([first, second])
-          ])
+          expect(OrderedPairInitializer.value(first,second)).to eq(Set.new(
+            Set.new(first),
+            Set.new(first, second)
+          ))
         end
       end
     end

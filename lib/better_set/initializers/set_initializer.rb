@@ -1,8 +1,6 @@
 module BetterSet
   module Initializers
     class SetInitializer
-      NOT_ARRAY_ERROR_MESSAGE = "Argument must be Array class".freeze
-
       def self.value(array)
         new(array).value
       end
@@ -12,8 +10,6 @@ module BetterSet
       end
 
       def value
-        raise_not_array_error unless initialized_with_array?
-
         create_hash
       end
 
@@ -31,14 +27,6 @@ module BetterSet
         else
           hash.merge(element => true)
         end
-      end
-
-      def initialized_with_array?
-        @array.class == Array
-      end
-
-      def raise_not_array_error
-        raise ArgumentError, NOT_ARRAY_ERROR_MESSAGE
       end
     end
   end

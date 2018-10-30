@@ -12,7 +12,7 @@ module BetterSet
       end
 
       def value
-        Set.new(set_elements)
+        Set.new(*set_elements)
       end
 
       private
