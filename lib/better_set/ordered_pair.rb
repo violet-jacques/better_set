@@ -14,7 +14,7 @@ module BetterSet
       "<#{first.to_s}, #{second.to_s}>"
     end
 
-    def symmetric?
+    def reflexive?
       first == second
     end
 
