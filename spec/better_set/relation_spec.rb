@@ -163,6 +163,37 @@ module BetterSet
       end
     end
 
+    describe "#asymmetric?" do
+      let(:ordered_pair1) { OrderedPair.new(1, 2) }
+      let(:ordered_pair2) { OrderedPair.new(2, 3) }
+      let(:ordered_pairs) { Set.new([ordered_pair1, ordered_pair2]) }
+      let(:relation) { Relation.new(ordered_pairs) }
+
+      context "there are no x,y s.t. <x,y> and <y,x> are in R" do
+        it "returns true" do
+          expect(relation.asymmetric?).to be(true)
+        end
+      end
+
+      context "there is at least one x,y s.t. <x,y> and <y,x> are in R" do
+        let(:ordered_pair3) { OrderedPair.new(3,2) }
+        let(:ordered_pairs) { Set.new([ordered_pair1, ordered_pair2, ordered_pair3]) }
+
+        it "returns false" do
+          expect(relation.asymmetric?).to be(false)
+        end
+      end
+
+      context "there is a reflexive pair in R" do
+        let(:ordered_pair3) { OrderedPair.new(3,3) }
+        let(:ordered_pairs) { Set.new([ordered_pair1, ordered_pair2, ordered_pair3]) }
+
+        it "returns false" do
+          expect(relation.symmetric?).to be(false)
+        end
+      end
+    end
+
     describe "transitive?" do
       let(:ordered_pair1) { OrderedPair.new(1, 2) }
       let(:ordered_pair2) { OrderedPair.new(2, 3) }
