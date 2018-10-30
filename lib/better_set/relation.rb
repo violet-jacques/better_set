@@ -18,15 +18,19 @@ module BetterSet
     end
 
     def reflexive?
-      @ordered_pairs.all?(&:reflexive?)
+      domain.all? do |element|
+        @ordered_pairs.member?(OrderedPair.new(element, element))
+      end
     end
 
     def nonreflexive?
-      !reflexive? && @ordered_pairs.any?(&:reflexive?)
+      !reflexive?
     end
 
     def irreflexive?
-      @ordered_pairs.none?(&:reflexive?)
+      domain.none? do |element|
+        @ordered_pairs.member?(OrderedPair.new(element, element))
+      end
     end
 
     def symmetric?
