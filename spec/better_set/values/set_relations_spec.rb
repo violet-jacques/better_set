@@ -11,6 +11,10 @@ module BetterSet
             @set = initial_set
           end
 
+          def class
+            @set.class
+          end
+
           delegate :all?, :cardinality, :is_a?, :to_a, :member?, to: :set
 
           private
