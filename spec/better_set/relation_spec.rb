@@ -295,6 +295,229 @@ module BetterSet
         end
       end
     end
+
+    describe "#union" do
+      let(:ordered_pair) { OrderedPair.new(1,1) }
+      let(:relation) { Relation.new(Set.new(ordered_pair)) }
+
+      context "other is a relation" do
+        let(:other_pair) { OrderedPair.new(1,2) }
+        let(:other) { Relation.new(Set.new(other_pair)) }
+
+        it "returns the union of the relations" do
+          expect(relation.union(other)).to eq(
+            Relation.new(
+              Set.new(ordered_pair,other_pair)
+            )
+          )
+        end
+      end
+
+      context "other is not a relation but a set" do
+        let(:other) { Set.new(5) }
+
+        it "returns a set with all elements" do
+          expect(relation.union(other)).to eq(
+            Set.new(ordered_pair,5)
+          )
+        end
+      end
+
+      context "other is neither a set nor relation" do
+        let(:other) { 5 }
+
+        it "raises an error" do
+          expect { relation.union(other) }.to raise_error(
+            ArgumentError,
+            "Argument must be a BetterSet"
+          )
+        end
+      end
+    end
+
+    describe "#intersection" do
+      let(:ordered_pair) { OrderedPair.new(1,1) }
+      let(:ordered_pair2) { OrderedPair.new(1,2) }
+      let(:relation) { Relation.new(Set.new(ordered_pair, ordered_pair2)) }
+
+      context "other is a relation" do
+        let(:other_ordered_pair) { ordered_pair }
+        let(:other_ordered_pair2) { OrderedPair.new(1,3) }
+        let(:other) { Relation.new(Set.new(other_ordered_pair, other_ordered_pair2)) }
+
+        it "returns a relation with the elements in common" do
+          expect(relation.intersection(other)).to eq(
+            Relation.new(Set.new(other_ordered_pair))
+          )
+        end
+      end
+
+      context "other is not a relation but a set" do
+        let(:other) { Set.new(ordered_pair, 1) }
+
+        it "returns a set with the elements in common" do
+          expect(relation.intersection(other)).to eq(
+            Set.new(ordered_pair)
+          )
+        end
+      end
+
+      context "other is neither a set nor relation" do
+        let(:other) { 5 }
+
+        it "raises an error" do
+          expect { relation.intersection(other) }.to raise_error(
+            ArgumentError,
+            "Argument must be a BetterSet",
+          )
+        end
+      end
+    end
+
+    describe "#difference" do
+      let(:ordered_pair) { OrderedPair.new(1,1) }
+      let(:ordered_pair2) { OrderedPair.new(1,2) }
+      let(:relation) { Relation.new(Set.new(ordered_pair, ordered_pair2)) }
+
+      context "other is a relation" do
+        let(:other) { Relation.new(Set.new(ordered_pair2)) }
+
+        it "returns a relation without the elements in other" do
+          expect(relation.difference(other)).to eq(
+            Relation.new(
+              Set.new(ordered_pair)
+            )
+          )
+        end
+      end
+
+      context "other is not a relation but a set" do
+        let(:other) { Set.new(OrderedPair.new(1,2), 5) }
+
+        it "returns a set without the elements in other" do
+          expect(relation.difference(other)).to eq(
+            Set.new(ordered_pair)
+          )
+        end
+      end
+
+      context "other is neither a set nor relation" do
+        let(:other) { 5 }
+
+        it "raises an error" do
+          expect { relation.difference(other) }.to raise_error(
+            ArgumentError,
+            "Argument must be a BetterSet",
+          )
+        end
+      end
+    end
+
+    describe "#add" do
+      let(:ordered_pair) { OrderedPair.new(1,2) }
+      let(:relation) { Relation.new(Set.new(ordered_pair)) }
+
+      context "element is ordered pair" do
+        let(:other) { OrderedPair.new(3,3) }
+
+        it "returns relation with new ordered pair" do
+          expect(relation.add(other)).to eq(
+            Relation.new(
+              Set.new(ordered_pair, other)
+            )
+          )
+        end
+      end
+
+      context "element is not an ordered pair" do
+        let(:other) { 1 }
+
+        it "returns a set with the new element" do
+          expect(relation.add(other)).to eq(
+            Set.new(ordered_pair, other)
+          )
+        end
+      end
+    end
+
+    describe "#remove" do
+      let(:ordered_pair) { OrderedPair.new(1,2) }
+      let(:ordered_pair2) { OrderedPair.new(3,3) }
+      let(:relation) { Relation.new(Set.new(ordered_pair, ordered_pair2)) }
+
+      context "element is ordered pair" do
+        let(:other) { OrderedPair.new(3,3) }
+
+        it "returns relation with new ordered pair" do
+          expect(relation.remove(other)).to eq(
+            Relation.new(
+              Set.new(ordered_pair)
+            )
+          )
+        end
+      end
+
+      context "element is not an ordered pair" do
+        let(:other) { 1 }
+
+        it "returns a the empty set" do
+          expect(relation.remove(other)).to eq(relation)
+        end
+      end
+    end
+
+    describe "#cartesian_product" do
+      let(:ordered_pair) { OrderedPair.new(1,2) }
+      let(:ordered_pair2) { OrderedPair.new(3,3) }
+      let(:ordered_pairs) { Set.new(ordered_pair, ordered_pair2) }
+      let(:relation) { Relation.new(ordered_pairs) }
+
+      context "other is not a relation or a set" do
+        let(:other) { "hey"}
+
+        it "raises an argument error" do
+          expect { relation.cartesian_product(other) }.to raise_error(
+            ArgumentError,
+            "Argument must be a BetterSet",
+          )
+        end
+      end
+
+      context "other is a relation" do
+        let(:other_pair) { OrderedPair.new(1,2) }
+        let(:other_pairs) { Set.new(other_pair) }
+        let(:other) { Relation.new(other_pairs) }
+
+        it "returns the cartesian product of two sets as a relation" do
+          expect(relation.cartesian_product(other)).to eq(
+            Relation.new(
+              Set.new(
+                OrderedPair.new(ordered_pair, other_pair),
+                OrderedPair.new(ordered_pair2, other_pair)
+              )
+            )
+          )
+        end
+      end
+
+      context "other is a set" do
+        let(:other) { Set.new(1,2) }
+
+        it "returns the cartesian product of two sets as a relation" do
+          expect(relation.cartesian_product(other)).to eq(
+            Relation.new(
+              Set.new(
+                OrderedPair.new(ordered_pair, 1),
+                OrderedPair.new(ordered_pair, 2),
+                OrderedPair.new(ordered_pair2, 1),
+                OrderedPair.new(ordered_pair2, 2)
+              )
+            )
+          )
+        end
+      end
+    end
+
     describe "equivalence_relation?" do
       let(:ordered_pair1) { OrderedPair.new(1, 2) }
       let(:ordered_pair2) { OrderedPair.new(2, 3) }
