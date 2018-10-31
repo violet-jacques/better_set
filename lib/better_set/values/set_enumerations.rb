@@ -3,7 +3,7 @@ require "better_set/values/partition"
 module BetterSet
   module Values
     module SetEnumerations
-      delegate :any?, :all?, :none?, :reduce, :*, to: :to_a
+      delegate :any?, :all?, :find, :none?, :reduce, :*, to: :to_a
 
       def select(&block)
         Set.new(*to_a.select(&block))
