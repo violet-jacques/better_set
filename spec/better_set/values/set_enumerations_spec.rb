@@ -24,6 +24,7 @@ module BetterSet
       describe "delegations" do
         it { should delegate_method(:all?).to(:to_a) }
         it { should delegate_method(:any?).to(:to_a) }
+        it { should delegate_method(:find).to(:to_a) }
         it { should delegate_method(:none?).to(:to_a) }
         it { should delegate_method(:reduce).to(:to_a) }
       end
