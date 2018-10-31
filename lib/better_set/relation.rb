@@ -50,7 +50,9 @@ module BetterSet
 
     def asymmetric?
       @ordered_pairs.none? do |ordered_pair|
-        @ordered_pairs.member?(OrderedPair.new(ordered_pair.second, ordered_pair.first))
+        @ordered_pairs.member?(OrderedPair.new(
+          ordered_pair.second, ordered_pair.first
+        ))
       end
     end
 
@@ -77,6 +79,36 @@ module BetterSet
 
     def equivalence_relation?
       reflexive? && symmetric? && transitive?
+    end
+
+    def union(other)
+      new_ordered_pairs = @ordered_pairs.union(other)
+
+      if other.is_a?(Relation)
+        Relation.new(new_ordered_pairs)
+      else
+        new_ordered_pairs
+      end
+    end
+
+    def intersection(other)
+      new_ordered_pairs = @ordered_pairs.intersection(other)
+
+      if other.is_a?(Relation)
+        Relation.new(new_ordered_pairs)
+      else
+        new_ordered_pairs
+      end
+    end
+
+    def difference(other)
+      new_ordered_pairs = @ordered_pairs.difference(other)
+
+      if other.is_a?(Relation)
+        Relation.new(new_ordered_pairs)
+      else
+        new_ordered_pairs
+      end
     end
 
     private
