@@ -84,31 +84,19 @@ module BetterSet
     def union(other)
       new_ordered_pairs = @ordered_pairs.union(other)
 
-      if other.is_a?(Relation)
-        Relation.new(new_ordered_pairs)
-      else
-        new_ordered_pairs
-      end
+      handle_ordered_pairs_given(other, new_ordered_pairs)
     end
 
     def intersection(other)
       new_ordered_pairs = @ordered_pairs.intersection(other)
 
-      if other.is_a?(Relation)
-        Relation.new(new_ordered_pairs)
-      else
-        new_ordered_pairs
-      end
+      handle_ordered_pairs_given(other, new_ordered_pairs)
     end
 
     def difference(other)
       new_ordered_pairs = @ordered_pairs.difference(other)
 
-      if other.is_a?(Relation)
-        Relation.new(new_ordered_pairs)
-      else
-        new_ordered_pairs
-      end
+      handle_ordered_pairs_given(other, new_ordered_pairs)
     end
 
     private
@@ -119,6 +107,14 @@ module BetterSet
 
     def function?
       domain.cardinality == @ordered_pairs.cardinality
+    end
+
+    def handle_ordered_pairs_given(other, ordered_pairs)
+      if other.is_a?(Relation)
+        Relation.new(ordered_pairs)
+      else
+        ordered_pairs
+      end
     end
   end
 end
