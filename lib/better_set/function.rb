@@ -16,14 +16,8 @@ module BetterSet
     end
 
     def injective?
-      domain.all? do |element|
-        domain.all? do |next_element|
-          if self[element] == self[next_element]
-            element == next_element
-          else
-            true
-          end
-        end
+      domain.cartesian_product(domain).all? do |ordered_pair|
+        ordered_pair.injective_in?(self)
       end
     end
 

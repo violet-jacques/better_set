@@ -18,6 +18,32 @@ module BetterSet
       first == second
     end
 
+    def inverse
+      @inverse ||= self.class.new(second, first)
+    end
+
+    def injective_in?(function)
+      return true unless function[first] == function[second]
+
+      reflexive?
+    end
+
+    def semi_connex_in?(relation)
+      return true unless reflexive? && !relation.member?(self)
+
+      relation.member?(inverse)
+    end
+
+    def antisymmetric_in?(relation)
+      return true unless relation.member?(inverse)
+
+      reflexive?
+    end
+
+    def connected_in?(relation)
+      relation.member?(self) || relation.member?(inverse)
+    end
+
     private
 
     def initial_ordered_pair_set
