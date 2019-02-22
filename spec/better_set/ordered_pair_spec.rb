@@ -45,5 +45,51 @@ module BetterSet
         end
       end
     end
+
+    describe "semi_connex_in?" do
+      let(:ordered_pair_for_relation) { OrderedPair.new(3, 4) }
+      let(:relation) do
+        Relation.new(Set.new(ordered_pair_for_relation))
+      end
+
+      subject(:ordered_pair) { OrderedPair.new(second, second) }
+
+      context "self is not reflexive" do
+        subject(:ordered_pair) { OrderedPair.new(first, second) }
+
+        it "returns true" do
+          expect(ordered_pair.semi_connex_in?(relation)).to be(true)
+        end
+      end
+
+
+      context "relation contains self" do
+        let(:relation) do
+          Relation.new(Set.new(ordered_pair))
+        end
+
+        it "returns true" do
+          expect(ordered_pair.semi_connex_in?(relation)).to be(true)
+        end
+      end
+
+      context "inverse is a member of the relation" do
+        let(:relation) do
+          Relation.new(
+            Set.new(ordered_pair.inverse)
+          )
+        end
+
+        it " returns true" do
+          expect(ordered_pair.semi_connex_in?(relation)).to be(true)
+        end
+      end
+
+      context "inverse is not a member of the relation" do
+        it "returns false" do
+          expect(ordered_pair.semi_connex_in?(relation)).to be(false)
+        end
+      end
+    end
   end
 end
