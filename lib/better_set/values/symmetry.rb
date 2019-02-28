@@ -24,7 +24,7 @@ module BetterSet
       attr_reader :ordered_pairs
 
       def ordered_pair
-        @ordered_pair ||= ordered_pairs.to_a.first
+        @ordered_pair ||= ordered_pairs.arbitrary_element
       end
 
       def inverse_pair
