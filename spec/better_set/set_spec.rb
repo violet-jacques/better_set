@@ -632,5 +632,24 @@ module BetterSet
         ))
       end
     end
+
+    describe "#arbitrary_element" do
+      let(:array) { [1,2,3,4] }
+      let(:set) { Set.new(*array) }
+
+      subject(:arbitrary_element) { set.arbitrary_element }
+
+      it "picks an element from the set" do
+        expect(array).to include(arbitrary_element)
+      end
+
+      it "doesnt return a new value on next call" do
+        element1 = set.arbitrary_element
+        element2 = set.arbitrary_element
+
+        expect(arbitrary_element).to eq(element1)
+        expect(arbitrary_element).to eq(element2)
+      end
+    end
   end
 end
