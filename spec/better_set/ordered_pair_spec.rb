@@ -62,7 +62,6 @@ module BetterSet
         end
       end
 
-
       context "relation contains self" do
         let(:relation) do
           Relation.new(Set.new(ordered_pair))
