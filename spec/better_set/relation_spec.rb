@@ -669,5 +669,26 @@ module BetterSet
         end
       end
     end
+
+    describe "semi_connex?" do
+      let(:elements) { [1,2,3,4] }
+      let(:domain) { Set.new(elements) }
+
+      subject(:relation) { domain.cartesian_product(domain) }
+
+      context "every element is semi connex in self" do
+        it "returns true" do
+          expect(relation.semi_connex?).to eq(true)
+        end
+      end
+
+      context "at least on element is not semi connex in self" do
+        subject(:relation) { domain.cartesian_product(Set.new(1, 2, 3)) }
+
+        it "returns false" do
+          expect(relation.semi_connex?).to eq(false)
+        end
+      end
+    end
   end
 end
