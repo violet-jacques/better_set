@@ -60,5 +60,9 @@ module BetterSet
     def powerset
       Values::Powerset.value(self)
     end
+
+    def arbitrary_element
+      @arbitrary_element ||= to_a.sample
+    end
   end
 end
