@@ -11,75 +11,87 @@ module BetterSet
     end
 
     def domain
-      @ordered_pairs.map(&:first)
+      @domain ||= @ordered_pairs.map(&:first)
     end
 
     def range
-      @ordered_pairs.map(&:second)
+      @range ||= @ordered_pairs.map(&:second)
     end
 
     def reflexive?
-      domain.all? do |element|
-        @ordered_pairs.member?(OrderedPair.new(element, element))
-      end
+      @reflexive ||= (
+        domain.all? do |element|
+          @ordered_pairs.member?(OrderedPair.new(element, element))
+        end
+      )
     end
 
     def nonreflexive?
-      !reflexive?
+      @nonreflexive ||= !reflexive?
     end
 
     def irreflexive?
-      domain.none? do |element|
-        @ordered_pairs.member?(OrderedPair.new(element, element))
-      end
+      @irreflexive ||= (
+        domain.none? do |element|
+          @ordered_pairs.member?(OrderedPair.new(element, element))
+        end
+      )
     end
 
     def symmetric?
-      Values::Symmetry.value(@ordered_pairs)
+      @symmetric ||= Values::Symmetry.value(@ordered_pairs)
     end
 
     def antisymmetric?
-      @ordered_pairs.all? do |ordered_pair|
-        ordered_pair.antisymmetric_in?(@ordered_pairs)
-      end
+      @antisymmetric ||= (
+        @ordered_pairs.all? do |ordered_pair|
+          ordered_pair.antisymmetric_in?(@ordered_pairs)
+        end
+      )
     end
 
     def asymmetric?
-      @ordered_pairs.none? do |ordered_pair|
-        @ordered_pairs.member?(ordered_pair.inverse)
-      end
+      @asymmetric ||= (
+        @ordered_pairs.none? do |ordered_pair|
+          @ordered_pairs.member?(ordered_pair.inverse)
+        end
+      )
     end
 
     def transitive?
-      Values::Transitivity.value(@ordered_pairs)
+      @transitive ||= Values::Transitivity.value(@ordered_pairs)
     end
 
     def nontransitive?
-      !transitive?
+      @nontransitive ||= !transitive?
     end
 
     def intransitive?
-      Values::Intransitivity.value(@ordered_pairs)
+      @intransitive ||= Values::Intransitivity.value(@ordered_pairs)
     end
 
     def connected?
-      domain.all? do |element|
-        (domain.remove(element)).all? do |next_element|
-          ordered_pair = OrderedPair.new(element, next_element)
+      @connected ||= (
+        domain.all? do |element|
+          (domain.remove(element)).all? do |next_element|
+            ordered_pair = OrderedPair.new(element, next_element)
 
-          ordered_pair.connected_in?(@ordered_pairs)
+            ordered_pair.connected_in?(@ordered_pairs)
+          end
         end
-      end
+      )
     end
 
     def semi_connex?
-      domain.cartesian_product(domain).all? do |ordered_pair|
-        ordered_pair.semi_connex_in?(self)
-      end
+      @semi_connex ||= (
+        domain.cartesian_product(domain).all? do |ordered_pair|
+          ordered_pair.semi_connex_in?(self)
+        end
+      )
     end
 
     def equivalence_relation?
-      reflexive? && symmetric? && transitive?
+      @equivalence_relation ||= reflexive? && symmetric? && transitive?
     end
 
     def union(other)
