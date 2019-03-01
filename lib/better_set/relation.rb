@@ -94,6 +94,26 @@ module BetterSet
       @equivalence_relation ||= reflexive? && symmetric? && transitive?
     end
 
+    def order?
+      @order ||= weak_order? || strong_order?
+    end
+
+    def weak_order?
+      @weak_order ||= transitive? && reflexive? && antisymmetric?
+    end
+
+    def strong_order?
+      @strong_order ||= transitive? && irreflexive? && antisymmetric?
+    end
+
+    def total_order?
+      @total_order ||= order? && connected?
+    end
+
+    def linear_order?
+      @linear_order ||= total_order?
+    end
+
     def union(other)
       new_ordered_pairs = @ordered_pairs.union(other)
 
