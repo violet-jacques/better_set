@@ -2,6 +2,7 @@ module BetterSet
   module Values
     class PowersetPositionFlags
       EMPTY_STRING = "".freeze
+      RADIX = 2
 
       def self.value(powerset_position)
         new(powerset_position).value
@@ -24,7 +25,7 @@ module BetterSet
       end
 
       def binary_representation_of_position
-        @powerset_position.to_s(2)
+        @powerset_position.to_s(RADIX)
       end
 
       def normalized_binary_string
